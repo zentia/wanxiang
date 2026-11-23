@@ -1,0 +1,34 @@
+# Scaled continuation: SAME model config as lm-baseline, longer budget on a
+# larger TRAIN stream. train.max_steps is excluded from config_hash, so the
+# step-400 checkpoint loads with the strict config guard intact.
+# Eval remains pinned to runs/corpus/lm (frozen) — never this train stream.
+data:
+  mix: wiki_zh_corpus_lm
+  seq_len: 128
+  val_fraction: 0.02
+eval:
+  harness_tasks: []
+  milestones:
+  - 0.5
+  - 1.0
+experiment: wanxiang-lm-baseline
+model:
+  dim: 256
+  heads: 4
+  layers: 4
+  vocab_size: 8192
+recover:
+  early_stop_patience: 12
+  loss_spike_sigma: 10.0
+  max_retries: 3
+  spike_window: 50
+seed: 42
+train:
+  ckpt_every_steps: 100
+  global_batch_tokens: 32768
+  grad_clip: 1.0
+  lr_peak: 0.001
+  max_steps: 1200
+  precision: fp32
+  val_every_steps: 50
+  warmup_steps: 30

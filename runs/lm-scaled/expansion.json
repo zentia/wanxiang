@@ -1,0 +1,48 @@
+{
+  "disjointness": {
+    "base_rows": 400,
+    "ext_rows": 800,
+    "overlapping_ids": 0
+  },
+  "eval_corpus": {
+    "corpus_id": "81bd7bb3646e57be",
+    "holdout_sha256": "65947b9599d9256130c574ea50426ffc23e23fe42b524ddbb7e7314fa4c2ec6b",
+    "note": "UNCHANGED — eval_lm_hash must stay 2b70b6f6793432ab",
+    "path": "runs/corpus/lm",
+    "tokenizer_sha256": "8ee357138775bba721c98f596564c719c5926cc108c11e8109cac02887d96188"
+  },
+  "experiment": "wanxiang-lm-scaled",
+  "extension_source": {
+    "bytes": 12709476,
+    "name": "wiki_zh_ext",
+    "pin": {
+      "api": "https://datasets-server.huggingface.co/rows",
+      "config": "20231101.zh",
+      "dataset": "wikimedia/wikipedia",
+      "n_rows": 800,
+      "offset": 400,
+      "split": "train"
+    },
+    "rows": 800,
+    "sha256": "10fd960a74329b123a4523fafae61e91a9e6e29b1bee29093de605474b7cc75d"
+  },
+  "method": "append-disjoint-wiki-rows-to-train-only",
+  "tokenizer": {
+    "kind": "char",
+    "note": "frozen tokenizer reused verbatim; OOV -> <unk>",
+    "sha256": "8ee357138775bba721c98f596564c719c5926cc108c11e8109cac02887d96188",
+    "unk_count": 5070,
+    "unk_id": 1,
+    "unk_rate": 0.0010889165902778434
+  },
+  "train_stream": {
+    "appended_tokens": 4656004,
+    "base_sha256": "f2c2c6dedca177714a248e04b270e29497ab998cb32f614347d91fdef7817085",
+    "base_tokens": 3059577,
+    "bytes": 15431162,
+    "path": "runs/lm-scaled/train_tokens.bin",
+    "prefix_identical_to_base": true,
+    "sha256": "c06308f23e3f9b2ffcf88a9ebf24b433d5e26138aaf715201d0bf57e3fb8904c",
+    "total_tokens": 7715581
+  }
+}

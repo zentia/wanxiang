@@ -1,0 +1,56 @@
+
+=== eval3_large_bundle_step_1300.json ===
+{
+  "after_status": "PARTIAL",
+  "after_step": 1300,
+  "before_status": "PARTIAL",
+  "before_step": 1350,
+  "compatible": true,
+  "delta_composite": 0.01595913159176396,
+  "differences": [],
+  "format_version": "wanxiang-eval3-compare-1",
+  "min_improvement": 0.02,
+  "verdict": "NO_CHANGE"
+}
+
+=== eval3_large_bundle_step_650.json ===
+{
+  "after_status": "PARTIAL",
+  "after_step": 650,
+  "before_status": "PARTIAL",
+  "before_step": 1350,
+  "compatible": true,
+  "delta_composite": -0.016566759934188054,
+  "differences": [],
+  "format_version": "wanxiang-eval3-compare-1",
+  "min_improvement": 0.02,
+  "verdict": "NO_CHANGE"
+}
+
+=== eval3_large_bundle_step_700.json ===
+{
+  "after_status": "PARTIAL",
+  "after_step": 700,
+  "before_status": "PARTIAL",
+  "before_step": 1350,
+  "compatible": true,
+  "delta_composite": -0.004032401396881616,
+  "differences": [],
+  "format_version": "wanxiang-eval3-compare-1",
+  "min_improvement": 0.02,
+  "verdict": "NO_CHANGE"
+}
+
+=== eval3_large_bundle_step_800.json ===
+{
+  "after_status": "PARTIAL",
+  "after_step": 800,
+  "before_status": "PARTIAL",
+  "before_step": 1350,
+  "compatible": true,
+  "delta_composite": -0.00490931522015374,
+  "differences": [],
+  "format_version": "wanxiang-eval3-compare-1",
+  "min_improvement": 0.02,
+  "verdict": "NO_CHANGE"
+}

@@ -1,0 +1,24 @@
+{
+  "config_yaml": "byte-identical to source (same config_hash, seed, model, budget=4800)",
+  "expected": "steps 3600/4000 (and 4350 if present) reproduce ext3 perplexity bit-for-bit; the full 4800-step budget becomes reachable and the frozen-ruler perplexity keeps falling past 4350",
+  "frozen_eval_lm_hash": "2b70b6f6793432ab",
+  "note": "Repair #3 in EARLY_STOP_REVIEW.md (relative min_delta / smoothing) is intentionally NOT applied this round, so any behavioural change is attributable to the sampling fix alone. Re-evaluate only if the clean retrain still stops prematurely.",
+  "purpose": "clean retrain validating the tail-val sampling / early-stop fix",
+  "sha256": {
+    "config.yaml": "713c1514549e0d91b46476d09ff6da3a90480814edc7dd74ef9541da2ca18eff",
+    "train_tokens.bin": "4059568186faef66d1ade18ae6b544e006377d31dc6670abebf088954b1aa025"
+  },
+  "source_run": "runs/lm-scaled3",
+  "train_tokens_bin": "byte-identical to source (same frozen eval corpus)",
+  "what_MUST_NOT_change": [
+    "training trajectory: weights / optimizer / scheduler / data cursor",
+    "model, optimizer, seed, LR schedule, loss spike detector",
+    "min_delta and early_stop_patience (single-variable discipline)",
+    "the FROZEN eval_lm_hash = 2b70b6f6793432ab"
+  ],
+  "what_changed": [
+    "autotrain/trainer/data.py: get_val_batch windows become disjoint & evenly spread",
+    "autotrain/trainer/runner.py: _validate samples VAL_WINDOWS=16 disjoint windows",
+    "tests/test_data.py + tests/test_runner.py: 4 new regression tests"
+  ]
+}

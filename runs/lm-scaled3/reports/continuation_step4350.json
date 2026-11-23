@@ -1,0 +1,7 @@
+{
+  "prompt": "自然语言处理是",
+  "continuation": "否有一个不同的，而且是一个不同的语言，而是一个语言的语言，而是一个语言的语言，而是一个语言的语言",
+  "max_new_tokens": 48,
+  "note": "greedy, deterministic; diagnostic only, not a scored metric"
+}
+

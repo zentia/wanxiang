@@ -1,0 +1,40 @@
+# 100M capacity-scaling experiment: same char tokenizer / eval3 corpus as
+# eval3-clean, ONLY model capacity changes (6x384 -> 14x768). This keeps the
+# eval3 0.0676 char baseline a valid same-ruler comparator.
+#
+# 14 layers / 768 dim / 12 heads -> 105.5M total, 99.1M non-embedding params.
+# VOCAB_SIZE stays 8192, seq_len 128, fp32 MPS -- identical to eval3-clean
+# except model dims. train.max_steps excluded from config_hash (budget knob).
+experiment: wanxiang-eval3-large-m2
+seed: 42
+
+data:
+  mix: m2_char_corpus
+  seq_len: 128
+  val_fraction: 0.02
+
+model:
+  layers: 14
+  dim: 768
+  heads: 12
+  vocab_size: 8192
+
+train:
+  global_batch_tokens: 32768
+  lr_peak: 1.5e-3
+  warmup_steps: 40
+  max_steps: 600
+  precision: fp32
+  ckpt_every_steps: 50
+  val_every_steps: 50
+  grad_clip: 1.0
+
+recover:
+  max_retries: 3
+  loss_spike_sigma: 3.0
+  spike_window: 50
+  early_stop_patience: 12
+
+eval:
+  harness_tasks: []
+  milestones: [0.5, 1.0]

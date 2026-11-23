@@ -1,0 +1,27 @@
+[discover] scoring steps=[3600, 4000, 4350] (final/early-stop=4350; 4800 budget never reached)
+[ref step2400] ppl=56.62 ce=4.0363
+[candidate step3600] ppl=38.27 ce=3.6445 -> IMPROVED
+[candidate step4000] ppl=35.76 ce=3.5769 -> IMPROVED
+[candidate step4350] ppl=34.91 ce=3.5529 -> IMPROVED
+[plateau step3600 -> step4350]
+{
+  "comparable": true,
+  "eval_lm_hash": "2b70b6f6793432ab",
+  "baseline_perplexity": 38.26536906857588,
+  "candidate_perplexity": 34.9144963252204,
+  "perplexity_delta": 3.350872743355481,
+  "baseline_cross_entropy": 3.644545285284648,
+  "candidate_cross_entropy": 3.5529021104520133,
+  "threshold": 0.0,
+  "verdict": "IMPROVED"
+}
+
+[generate step4350]
+{
+  "prompt": "自然语言处理是",
+  "continuation": "否有一个不同的，而且是一个不同的语言，而是一个语言的语言，而是一个语言的语言，而是一个语言的语言",
+  "max_new_tokens": 48,
+  "note": "greedy, deterministic; diagnostic only, not a scored metric"
+}
+
+[summary] -> runs/lm-scaled3/reports/lm_scaled3_curve.json

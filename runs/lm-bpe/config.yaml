@@ -1,0 +1,35 @@
+# Same-hash BPE arm. Model shape, step budget, documents and frozen eval are
+# identical to runs/lm-scaled; only the TRAIN tokenizer changes. The BPE vocab
+# keeps every frozen char id, so eval still scores on the frozen char holdout
+# with eval_lm_hash=2b70b6f6793432ab. Generation diagnostics use runs/lm-bpe/
+# tokenizer.json; scoring never re-tokenises the holdout.
+data:
+  mix: wiki_zh_corpus_lm_bpe
+  seq_len: 128
+  val_fraction: 0.02
+eval:
+  harness_tasks: []
+  milestones:
+  - 0.5
+  - 1.0
+experiment: wanxiang-lm-baseline
+model:
+  dim: 256
+  heads: 4
+  layers: 4
+  vocab_size: 8192
+recover:
+  early_stop_patience: 12
+  loss_spike_sigma: 10.0
+  max_retries: 3
+  spike_window: 50
+seed: 42
+train:
+  ckpt_every_steps: 100
+  global_batch_tokens: 32768
+  grad_clip: 1.0
+  lr_peak: 0.001
+  max_steps: 1200
+  precision: fp32
+  val_every_steps: 50
+  warmup_steps: 30

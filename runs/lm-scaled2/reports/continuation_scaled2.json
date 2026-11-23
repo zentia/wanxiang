@@ -1,0 +1,7 @@
+{
+  "prompt": "自然语言处理是",
+  "continuation": "否定的。 在这些语言中，这些语言中，这些语言是一种语言的语言。 在语言中，这些语言中，这些语言是",
+  "max_new_tokens": 48,
+  "note": "greedy, deterministic; diagnostic only, not a scored metric"
+}
+

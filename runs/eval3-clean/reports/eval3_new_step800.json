@@ -1,0 +1,65 @@
+{
+  "bundle_config_hash": "b36cd76970966c0bdabf462f67733f10389c5b1059e73cba17f9f3d3b967a406",
+  "bundle_step": 800,
+  "chat_template_hash": "75aa259402df72852a4d4010abf3093b792c1f8e10ce9781eefef3e59675e024",
+  "checks": {
+    "control_consistent": true,
+    "quality_passed": false
+  },
+  "corpus_manifest_hash": "bd3a69c56a89533ac9ff3243fd23ec64fdceebdbd9773fc81aff4b3220c45978",
+  "device": "cpu",
+  "empty_reply_rate": 0.0,
+  "evalspec_hash": "d806a5e1a6778b47cf9c0e7505e148c9678f6c2cb54367424ede2ac2e9274fa2",
+  "examples": [
+    {
+      "composite": 0.0,
+      "question": "请解释成语《安危与共》的意思",
+      "reference": "形容关系密切，利害相连",
+      "reply": "安危局，安于危难的地方和平平平平平平平平平平平平平平平平平平平平平平平平平平平平平平平平平平平平"
+    },
+    {
+      "composite": 0.0984,
+      "question": "成语《暗无天日》是什么意思",
+      "reference": "形容在反动势力统治下社会的黑暗",
+      "reply": "形容事情非常容易做，或事情无法可以改变，不成事理的方向都是有成功的就，或事情有了有成功的就，就会"
+    },
+    {
+      "composite": 0.1263,
+      "question": "请说出《傲不可长》的含义",
+      "reference": "傲慢之心不可以滋长",
+      "reply": "指傲慢不足，不可动于人的样子，也不动不上的样子，也不动不出来的样子，也不说不出来不出来的样子，也"
+    },
+    {
+      "composite": 0.0298,
+      "question": "请解释成语《白首相庄》的意思",
+      "reference": "指夫妇到老犹相敬爱",
+      "reply": "指一直言论论论论论论论论论论论论论论论论论论论论论论论论论论论论论论论论论论评论，说明确实，说是"
+    },
+    {
+      "composite": 0.0494,
+      "question": "成语《白兔赤乌》是什么意思",
+      "reference": "多借指时间",
+      "reply": "指老年人有德者的人，或有才能人的才能和人，或有才能的人能为才能为人的人，或事物有很多的人，就会有"
+    }
+  ],
+  "format_version": "wanxiang-eval3-report-1",
+  "gen_tokens": 48,
+  "metrics": {
+    "char_f1": 0.08118284408375347,
+    "composite": 0.06277559931016816,
+    "edit_similarity": 0.03986462305266059,
+    "exact_match": 0.0,
+    "rouge_l": 0.07443179022044881
+  },
+  "negative_control": {
+    "char_f1": 0.047239082777037394,
+    "composite": 0.03676122279954674,
+    "edit_similarity": 0.023920059995572916,
+    "exact_match": 0.0,
+    "rouge_l": 0.04360525896539065
+  },
+  "note": "Word-level holdout: questions are unseen idioms excluded from pretrain+SFT. Objective character metrics only.",
+  "qa_count": 150,
+  "status": "PARTIAL",
+  "tokenizer_hash": "7454de15a2a009fef273e640084f5da7bf5f91b0506fbfadb0a06991274215fa"
+}

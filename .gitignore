@@ -1,0 +1,157 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Virtual envs
+.venv/
+.venv-android/
+venv/
+
+# pytest
+.pytest_cache/
+
+# Training runs & data artifacts
+# `runs/*` (not `runs/`) so the eval3-clean subdir can be re-included below;
+# other run dirs stay fully ignored exactly as before.
+runs/*
+*.bin
+checkpoints/
+*.pt
+
+# Frozen M1.5 eval corpora must stay versioned (never regenerated in place)
+!evals/*.bin
+
+# Experiment store
+*.db
+
+# Keep the eval-3 clean-retrain experiment reproducible: version its
+# scripts/configs/reports/logs/summary, but never the large binaries/DBs.
+!runs/eval3-clean/
+runs/eval3-clean/*
+!runs/eval3-clean/*.py
+!runs/eval3-clean/*.yaml
+!runs/eval3-clean/*.json
+!runs/eval3-clean/*.log
+!runs/eval3-clean/reports/
+runs/eval3-clean/reports/*
+!runs/eval3-clean/reports/*.json
+
+# Keep the eval-3 BPE (subword) A/B reproducible, with the same binary policy.
+!runs/eval3-bpe/
+runs/eval3-bpe/*
+!runs/eval3-bpe/*.py
+!runs/eval3-bpe/*.yaml
+!runs/eval3-bpe/*.json
+!runs/eval3-bpe/*.log
+!runs/eval3-bpe/reports/
+runs/eval3-bpe/reports/*
+!runs/eval3-bpe/reports/*.json
+
+# Keep the eval-3 100M capacity-scaling A/B reproducible, same binary policy.
+!runs/eval3-large/
+runs/eval3-large/*
+!runs/eval3-large/*.py
+!runs/eval3-large/*.yaml
+!runs/eval3-large/*.json
+!runs/eval3-large/*.log
+runs/eval3-large/*_runtime.yaml
+!runs/eval3-large/reports/
+runs/eval3-large/reports/*
+!runs/eval3-large/reports/*.json
+
+# Keep the eval-4 retrieval experiment reproducible. The index itself is a
+# derived artifact (~30k entries) and stays ignored; scripts + reports versioned.
+!runs/eval4-retrieval/
+runs/eval4-retrieval/*
+!runs/eval4-retrieval/*.py
+!runs/eval4-retrieval/*.json
+!runs/eval4-retrieval/*.log
+!runs/eval4-retrieval/reports/
+runs/eval4-retrieval/reports/*
+!runs/eval4-retrieval/reports/*.json
+
+# Keep the general-purpose LM baseline reproducible. Sources/token streams,
+# checkpoints and bundles are derived binaries and stay ignored; only scripts,
+# configs, reports and logs are versioned.
+!runs/lm-baseline/
+runs/lm-baseline/*
+!runs/lm-baseline/*.py
+!runs/lm-baseline/*.yaml
+!runs/lm-baseline/*.json
+!runs/lm-baseline/*.log
+!runs/lm-baseline/reports/
+runs/lm-baseline/reports/*
+!runs/lm-baseline/reports/*.json
+
+# Keep the expanded-data / longer-training LM experiment reproducible. The
+# extended token stream, checkpoints and bundle are derived binaries and stay
+# ignored; scripts, configs, reports, provenance and logs are versioned.
+!runs/lm-scaled/
+runs/lm-scaled/*
+!runs/lm-scaled/*.py
+!runs/lm-scaled/*.yaml
+!runs/lm-scaled/*.json
+!runs/lm-scaled/*.log
+!runs/lm-scaled/reports/
+runs/lm-scaled/reports/*
+!runs/lm-scaled/reports/*.json
+
+# Same binary policy for the three follow-up LM quality arms.
+!runs/lm-scaled2/
+runs/lm-scaled2/*
+!runs/lm-scaled2/*.py
+!runs/lm-scaled2/*.yaml
+!runs/lm-scaled2/*.json
+!runs/lm-scaled2/*.log
+!runs/lm-scaled2/reports/
+runs/lm-scaled2/reports/*
+!runs/lm-scaled2/reports/*.json
+
+# Same binary policy for the ext3 long-budget LM arm.
+!runs/lm-scaled3/
+runs/lm-scaled3/*
+!runs/lm-scaled3/*.py
+!runs/lm-scaled3/*.yaml
+!runs/lm-scaled3/*.json
+!runs/lm-scaled3/*.log
+!runs/lm-scaled3/reports/
+runs/lm-scaled3/reports/*
+!runs/lm-scaled3/reports/*.json
+
+# Same binary policy for the clean retrain validating the val-sampling fix.
+!runs/lm-fixedval/
+runs/lm-fixedval/*
+!runs/lm-fixedval/*.py
+!runs/lm-fixedval/*.yaml
+!runs/lm-fixedval/*.json
+!runs/lm-fixedval/*.log
+!runs/lm-fixedval/reports/
+runs/lm-fixedval/reports/*
+!runs/lm-fixedval/reports/*.json
+
+!runs/lm-capacity/
+runs/lm-capacity/*
+!runs/lm-capacity/*.py
+!runs/lm-capacity/*.yaml
+!runs/lm-capacity/*.json
+!runs/lm-capacity/*.log
+!runs/lm-capacity/reports/
+runs/lm-capacity/reports/*
+!runs/lm-capacity/reports/*.json
+
+!runs/lm-bpe/
+runs/lm-bpe/*
+!runs/lm-bpe/*.py
+!runs/lm-bpe/*.yaml
+!runs/lm-bpe/*.json
+!runs/lm-bpe/*.log
+!runs/lm-bpe/reports/
+runs/lm-bpe/reports/*
+!runs/lm-bpe/reports/*.json
+
+# OS
+.DS_Store

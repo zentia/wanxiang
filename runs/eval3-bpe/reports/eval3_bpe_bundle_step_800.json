@@ -1,0 +1,67 @@
+{
+  "bundle_config_hash": "b36cd76970966c0bdabf462f67733f10389c5b1059e73cba17f9f3d3b967a406",
+  "bundle_step": 800,
+  "chat_template_hash": "75aa259402df72852a4d4010abf3093b792c1f8e10ce9781eefef3e59675e024",
+  "checks": {
+    "control_consistent": true,
+    "quality_passed": false
+  },
+  "corpus_manifest_hash": "bd3a69c56a89533ac9ff3243fd23ec64fdceebdbd9773fc81aff4b3220c45978",
+  "device": "cpu",
+  "empty_reply_rate": 0.0,
+  "evalspec_hash": "d806a5e1a6778b47cf9c0e7505e148c9678f6c2cb54367424ede2ac2e9274fa2",
+  "examples": [
+    {
+      "composite": 0.0,
+      "question": "请解释成语《安危与共》的意思",
+      "reference": "形容关系密切，利害相连",
+      "reply": "指国家安逸，安于政事的忧患，使其命运于事，以保持百姓，以前人为国家的国家和人民的国家和人民和人民的国家和人民的国家和人民"
+    },
+    {
+      "composite": 0.066,
+      "question": "成语《暗无天日》是什么意思",
+      "reference": "形容在反动势力统治下社会的黑暗",
+      "reply": "形容天气很短，没有一点儿儿，没有儿儿童的儿子，比喻没有一点儿儿童地方，没有儿童的女婿的人物或美好的事物物品质不同的女子的"
+    },
+    {
+      "composite": 0.0564,
+      "question": "请说出《傲不可长》的含义",
+      "reference": "傲慢之心不可以滋长",
+      "reply": "形容气势豪放，不可可走于绝境地，不可挽回的境界地逃跑的境界面貌或气氛或气氛都有气候的艰苦的境地产生动的"
+    },
+    {
+      "composite": 0.0399,
+      "question": "请解释成语《白首相庄》的意思",
+      "reference": "指夫妇到老犹相敬爱",
+      "reply": "比喻对待人相差极大的境界的境界的境界，在外界上不深入无关的人或生活的境遇中不专一意中得到的境界环境界的境界"
+    },
+    {
+      "composite": 0.0,
+      "question": "成语《白兔赤乌》是什么意思",
+      "reference": "多借指时间",
+      "reply": "比喻微小的东西或微小的东西，微小的东西就要害人，使其得胜利的损失别人，使自己害人的缺点或错误却使自己使自己害自己欺骗自己"
+    }
+  ],
+  "format_version": "wanxiang-eval3-report-1",
+  "gen_tokens": 48,
+  "metrics": {
+    "char_f1": 0.06534693415083392,
+    "composite": 0.050838528898107915,
+    "edit_similarity": 0.03294431914160872,
+    "exact_match": 0.0,
+    "rouge_l": 0.06036963803150866
+  },
+  "negative_control": {
+    "char_f1": 0.040525041909775836,
+    "composite": 0.03096472076094495,
+    "edit_similarity": 0.01918040827978118,
+    "exact_match": 0.0,
+    "rouge_l": 0.036395407803594605
+  },
+  "note": "Word-level holdout: questions are unseen idioms excluded from pretrain+SFT. Objective character metrics only.",
+  "qa_count": 150,
+  "status": "PARTIAL",
+  "tokenizer_hash": "429d3f699bf2e98b0b204114c69af02d707b200d018cbadf1bc63a141a45443a",
+  "tokenizer_type": "bpe",
+  "tokenizer_vocab_size": 8192
+}

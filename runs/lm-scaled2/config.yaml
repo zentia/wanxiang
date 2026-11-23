@@ -1,0 +1,34 @@
+# More disjoint data + more steps. Same model architecture as lm-baseline and
+# lm-scaled; train stream is base + wiki_zh_ext + wiki_zh_ext2 (rows 0..1999
+# minus the frozen holdout docs). max_steps is a budget knob excluded from
+# config_hash. Eval still points at runs/corpus/lm and is byte-frozen.
+data:
+  mix: wiki_zh_corpus_lm_scaled2
+  seq_len: 128
+  val_fraction: 0.02
+eval:
+  harness_tasks: []
+  milestones:
+  - 0.5
+  - 1.0
+experiment: wanxiang-lm-baseline
+model:
+  dim: 256
+  heads: 4
+  layers: 4
+  vocab_size: 8192
+recover:
+  early_stop_patience: 12
+  loss_spike_sigma: 10.0
+  max_retries: 3
+  spike_window: 50
+seed: 42
+train:
+  ckpt_every_steps: 100
+  global_batch_tokens: 32768
+  grad_clip: 1.0
+  lr_peak: 0.001
+  max_steps: 2400
+  precision: fp32
+  val_every_steps: 50
+  warmup_steps: 30

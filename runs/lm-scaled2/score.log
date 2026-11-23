@@ -1,0 +1,23 @@
+[ref step1200] ppl=106.82 ce=4.6711
+[candidate 2400] ppl=56.62 ce=4.0363
+[compare]
+{
+  "comparable": true,
+  "eval_lm_hash": "2b70b6f6793432ab",
+  "baseline_perplexity": 106.8186189756959,
+  "candidate_perplexity": 56.61532657054769,
+  "perplexity_delta": 50.20329240514821,
+  "baseline_cross_entropy": 4.671132246309944,
+  "candidate_cross_entropy": 4.036279736018336,
+  "threshold": 0.0,
+  "verdict": "IMPROVED"
+}
+
+[generate]
+{
+  "prompt": "自然语言处理是",
+  "continuation": "否定的。 在这些语言中，这些语言中，这些语言是一种语言的语言。 在语言中，这些语言中，这些语言是",
+  "max_new_tokens": 48,
+  "note": "greedy, deterministic; diagnostic only, not a scored metric"
+}
+

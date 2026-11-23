@@ -1,0 +1,4 @@
+EVAL3 eval3_large_bundle_step_650.json: status=PARTIAL composite=0.0510 exact_match=0.0000 control=0.0347
+EVAL3 eval3_large_bundle_step_700.json: status=PARTIAL composite=0.0635 exact_match=0.0000 control=0.0386
+EVAL3 eval3_large_bundle_step_800.json: status=PARTIAL composite=0.0627 exact_match=0.0000 control=0.0406
+EVAL3 eval3_large_bundle_step_1300.json: status=PARTIAL composite=0.0835 exact_match=0.0000 control=0.0439

@@ -1,0 +1,67 @@
+{
+  "bundle_config_hash": "b36cd76970966c0bdabf462f67733f10389c5b1059e73cba17f9f3d3b967a406",
+  "bundle_step": 1500,
+  "chat_template_hash": "75aa259402df72852a4d4010abf3093b792c1f8e10ce9781eefef3e59675e024",
+  "checks": {
+    "control_consistent": true,
+    "quality_passed": false
+  },
+  "corpus_manifest_hash": "bd3a69c56a89533ac9ff3243fd23ec64fdceebdbd9773fc81aff4b3220c45978",
+  "device": "cpu",
+  "empty_reply_rate": 0.0,
+  "evalspec_hash": "d806a5e1a6778b47cf9c0e7505e148c9678f6c2cb54367424ede2ac2e9274fa2",
+  "examples": [
+    {
+      "composite": 0.0834,
+      "question": "请解释成语《安危与共》的意思",
+      "reference": "形容关系密切，利害相连",
+      "reply": "形容医术高明的差别非常严密，一齐全难的紧要的差会会合来的差错了，自己意见的态度都能控制，却很少变，都能战胜"
+    },
+    {
+      "composite": 0.1467,
+      "question": "成语《暗无天日》是什么意思",
+      "reference": "形容在反动势力统治下社会的黑暗",
+      "reply": "形容风景或人去面的神气十分出气势、发展很盛的样子，也指严重或社会安定，没有什么都反对的发展的变化象和发展的变化，无法挽回"
+    },
+    {
+      "composite": 0.0828,
+      "question": "请说出《傲不可长》的含义",
+      "reference": "傲慢之心不可以滋长",
+      "reply": "形容心情和精神不宁静，难以安逸的神态在着大志时深厚，毫不平静，没有一点栖身之所，苟且显露自己好象邻居的地方就无之中就没有"
+    },
+    {
+      "composite": 0.0,
+      "question": "请解释成语《白首相庄》的意思",
+      "reference": "指夫妇到老犹相敬爱",
+      "reply": "黄色明白白，白彻底悔悟悟了，天完全正在，水上还没有变得上的流浪，反复复实实质，或事物向的事物越正定的成功，很难改变"
+    },
+    {
+      "composite": 0.0259,
+      "question": "成语《白兔赤乌》是什么意思",
+      "reference": "多借指时间",
+      "reply": "指为人、白衣带，为世俗习惯于世事，因此而在他人财物的计划、性格左右，极其突然的变化，对不满足的局面难以接连不断"
+    }
+  ],
+  "format_version": "wanxiang-eval3-report-1",
+  "gen_tokens": 48,
+  "metrics": {
+    "char_f1": 0.0777714630108114,
+    "composite": 0.05924545527381371,
+    "edit_similarity": 0.037364916714071564,
+    "exact_match": 0.0,
+    "rouge_l": 0.06887962242224943
+  },
+  "negative_control": {
+    "char_f1": 0.05018612277913155,
+    "composite": 0.03826537386981028,
+    "edit_similarity": 0.02417202734980438,
+    "exact_match": 0.0,
+    "rouge_l": 0.04452173096065595
+  },
+  "note": "Word-level holdout: questions are unseen idioms excluded from pretrain+SFT. Objective character metrics only.",
+  "qa_count": 150,
+  "status": "PARTIAL",
+  "tokenizer_hash": "429d3f699bf2e98b0b204114c69af02d707b200d018cbadf1bc63a141a45443a",
+  "tokenizer_type": "bpe",
+  "tokenizer_vocab_size": 8192
+}

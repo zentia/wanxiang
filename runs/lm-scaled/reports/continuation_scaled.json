@@ -1,0 +1,7 @@
+{
+  "prompt": "自然语言处理是",
+  "continuation": "一些人类的人类的人类的人类的人类的人类的人类的人类的人类的人类的人类的人类的人类的人类的人类的人",
+  "max_new_tokens": 48,
+  "note": "greedy, deterministic; diagnostic only, not a scored metric"
+}
+

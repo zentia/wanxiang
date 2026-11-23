@@ -1,0 +1,40 @@
+{
+  "alignment": {
+    "pieces_occupy_char_unused_slots": true,
+    "special_ids_identical": true,
+    "used_char_ids_identical": true
+  },
+  "eval_corpus": {
+    "corpus_id": "81bd7bb3646e57be",
+    "holdout_sha256": "65947b9599d9256130c574ea50426ffc23e23fe42b524ddbb7e7314fa4c2ec6b",
+    "note": "UNCHANGED — eval_lm_hash must stay 2b70b6f6793432ab; BPE model is scored on the frozen CHAR holdout tokens directly",
+    "path": "runs/corpus/lm",
+    "tokenizer_sha256": "8ee357138775bba721c98f596564c719c5926cc108c11e8109cac02887d96188"
+  },
+  "experiment": "wanxiang-lm-bpe",
+  "method": "char-id-aligned-bpe-on-ext1-train-only",
+  "note": "eval_diagnostic: use run/tokenizer.json only for generation decoding; score_bundle must keep using the frozen corpus tokenizer",
+  "tokenizer": {
+    "bpe_sha256": "39238e31bdd8a3e557ed997579672b276ed089ea4bfd9bab3adc9d19d0ac84ac",
+    "char_id_alignment": true,
+    "char_sha256": "8ee357138775bba721c98f596564c719c5926cc108c11e8109cac02887d96188",
+    "n_merges": 380,
+    "subword_id_range": [
+      7812,
+      8191
+    ],
+    "used_chars": 7808,
+    "vocab_size": 8192
+  },
+  "train_stream": {
+    "base_chars": 3059577,
+    "bpe_tokens": 7172936,
+    "bytes": 14345872,
+    "char_equivalent_tokens": 7715581,
+    "ext1_chars": 4656004,
+    "path": "runs/lm-bpe/train_tokens.bin",
+    "sha256": "7fdc421056d2d2528a0cdb5026c26b1b50095e3fe1da1a8d9e5693e7f013fad4",
+    "unk_count": 5070,
+    "unk_rate": 0.0007068235378093434
+  }
+}

@@ -1,0 +1,30 @@
+data:
+  mix: m2_char_corpus
+  seq_len: 128
+  val_fraction: 0.02
+eval:
+  harness_tasks: []
+  milestones:
+  - 0.5
+  - 1.0
+experiment: wanxiang-eval3-clean-m2
+model:
+  dim: 384
+  heads: 6
+  layers: 6
+  vocab_size: 8192
+recover:
+  early_stop_patience: 12
+  loss_spike_sigma: 3.0
+  max_retries: 3
+  spike_window: 50
+seed: 42
+train:
+  ckpt_every_steps: 100
+  global_batch_tokens: 32768
+  grad_clip: 1.0
+  lr_peak: 0.0015
+  max_steps: 1500
+  precision: fp32
+  val_every_steps: 50
+  warmup_steps: 40

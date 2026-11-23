@@ -1,0 +1,43 @@
+{
+  "actual_final_step": 4350,
+  "budget_max_steps": 4800,
+  "curve": [
+    {
+      "cross_entropy": 3.644545285284648,
+      "perplexity": 38.26536906857588,
+      "step": 3600,
+      "verdict_vs_step2400": "IMPROVED"
+    },
+    {
+      "cross_entropy": 3.5769173393496683,
+      "perplexity": 35.763125168776895,
+      "step": 4000,
+      "verdict_vs_step2400": "IMPROVED"
+    },
+    {
+      "cross_entropy": 3.5529021104520133,
+      "perplexity": 34.9144963252204,
+      "step": 4350,
+      "verdict_vs_step2400": "IMPROVED"
+    }
+  ],
+  "early_stopped": true,
+  "eval_lm_hash": "2b70b6f6793432ab",
+  "experiment": "wanxiang-lm-scaled3",
+  "note": "training-internal val_loss is NOT cross-run comparable (val_fraction slices each train stream's tail); only frozen holdout perplexity is a valid judge",
+  "plateau_step3600_to_final": {
+    "baseline_cross_entropy": 3.644545285284648,
+    "baseline_perplexity": 38.26536906857588,
+    "candidate_cross_entropy": 3.5529021104520133,
+    "candidate_perplexity": 34.9144963252204,
+    "comparable": true,
+    "eval_lm_hash": "2b70b6f6793432ab",
+    "perplexity_delta": 3.350872743355481,
+    "threshold": 0.0,
+    "verdict": "IMPROVED"
+  },
+  "reference": {
+    "perplexity": 56.61532657054769,
+    "step": 2400
+  }
+}

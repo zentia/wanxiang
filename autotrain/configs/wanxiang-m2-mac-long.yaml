@@ -1,0 +1,44 @@
+# Reproducible config for the Mac (Apple Silicon) SFT long-run experiment.
+# This is the versioned copy of runs/sft-long/config.yaml (runs/ is gitignored).
+#
+# Lineage: M2 pretrain step60 -> SFT step900 -> long-run step1700 (CONVERGED_EARLY).
+# Resume is legal because config_hash is identical to the step900 checkpoint
+# (db050a4ffe439b580b9ba050c1d195fb4e321ba51a401d26ebf2402ad33ededc);
+# only train.max_steps was raised from 900 to 2500, which is excluded from
+# the hash by design (budget knob, see autotrain/config.py).
+#
+# 6 layers / 384 dim / 6 heads -> ~10M params; seq_len 128, fp32 MPS.
+# VOCAB_SIZE stays 8192 so tokenizer and eval2 reports stay comparable.
+experiment: wanxiang-m2-mac
+seed: 42
+
+data:
+  mix: m2_char_corpus
+  seq_len: 128
+  val_fraction: 0.02
+
+model:
+  layers: 6
+  dim: 384
+  heads: 6
+  vocab_size: 8192
+
+train:
+  global_batch_tokens: 32768
+  lr_peak: 1.5e-3
+  warmup_steps: 40
+  max_steps: 2500
+  precision: fp32
+  ckpt_every_steps: 100
+  val_every_steps: 50
+  grad_clip: 1.0
+
+recover:
+  max_retries: 3
+  loss_spike_sigma: 3.0
+  spike_window: 50
+  early_stop_patience: 12
+
+eval:
+  harness_tasks: []
+  milestones: [0.5, 1.0]

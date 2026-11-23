@@ -1,0 +1,23 @@
+[ref char step1200] ppl=106.82 ce=4.6711
+[candidate BPE 1200] ppl=195.43 ce=5.2752
+[compare]
+{
+  "comparable": true,
+  "eval_lm_hash": "2b70b6f6793432ab",
+  "baseline_perplexity": 106.8186189756959,
+  "candidate_perplexity": 195.42974153594,
+  "perplexity_delta": -88.6111225602441,
+  "baseline_cross_entropy": 4.671132246309944,
+  "candidate_cross_entropy": 5.275200936500764,
+  "threshold": 0.0,
+  "verdict": "NO_CHANGE"
+}
+
+[generate]
+{
+  "prompt": "自然语言处理是",
+  "continuation": "“大”。 在199年，199年，198年，199年199年19年，199年19月1日，19日，1",
+  "max_new_tokens": 48,
+  "note": "greedy, deterministic; diagnostic only, not a scored metric"
+}
+

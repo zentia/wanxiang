@@ -1,0 +1,36 @@
+{
+  "chat_template": {
+    "template_hash": "75aa259402df72852a4d4010abf3093b792c1f8e10ce9781eefef3e59675e024",
+    "version": "wanxiang-chat-1"
+  },
+  "control_rotation": 37,
+  "corpus_manifest_hash": "b3036e8d8bbe7c1d3f8ea188a526783675b5956a1d2d1698c507e209ccb3f08b",
+  "files": {
+    "negative_control.jsonl": {
+      "bytes": 34218,
+      "rows": 150,
+      "sha256": "f0cd445b0a26e882864d131a599ab3f3db667d08cf004b76f2f379e85a0abf20"
+    },
+    "qa.jsonl": {
+      "bytes": 29031,
+      "rows": 150,
+      "sha256": "aea31acec16d49f472c4bcd33d8b6633042e51c2a5384227a4e62d4f99d2d70a"
+    }
+  },
+  "format_version": "wanxiang-eval-2",
+  "frozen": true,
+  "min_source_offset": 800000,
+  "note": "Frozen wanxiang-eval-2 measurement instrument. Never regenerate in place. M1.5 evals/ and evalspec_hash are deliberately untouched.",
+  "qa_count": 150,
+  "source": {
+    "note": "QA pairs parsed back from SFT token stream, offsets > min_source_offset",
+    "sft_tokens": "runs/sft/corpus/sft_tokens.bin",
+    "sha256": "c24f0e8bcf100d0733351fb9e9702e09f5b857aff9533b6dc14716dce123bd1e"
+  },
+  "tokenizer": {
+    "sha256": "7454de15a2a009fef273e640084f5da7bf5f91b0506fbfadb0a06991274215fa",
+    "type": "char",
+    "vocab_size": 8192
+  },
+  "train_consumed_max_token": 512000
+}

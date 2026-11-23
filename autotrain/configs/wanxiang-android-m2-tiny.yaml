@@ -1,0 +1,36 @@
+# M2 minimal prototype: real Chinese text -> char tokenizer -> uint16 stream.
+# Keeps VOCAB_SIZE=8192 so the M1.5 frozen eval spec is untouched.
+# This is a *new experiment* (own config_hash); old M1 reports stay comparable.
+experiment: wanxiang-android-m2-tiny
+seed: 42
+
+data:
+  mix: m2_char_corpus
+  seq_len: 64
+  val_fraction: 0.02
+
+model:
+  layers: 2
+  dim: 128
+  heads: 4
+  vocab_size: 8192
+
+train:
+  global_batch_tokens: 2048
+  lr_peak: 3.0e-3
+  warmup_steps: 5
+  max_steps: 60
+  precision: fp32
+  ckpt_every_steps: 30
+  val_every_steps: 10
+  grad_clip: 1.0
+
+recover:
+  max_retries: 3
+  loss_spike_sigma: 3.0
+  spike_window: 10
+  early_stop_patience: 10
+
+eval:
+  harness_tasks: []
+  milestones: [0.5, 1.0]

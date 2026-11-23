@@ -1,0 +1,33 @@
+# Capacity-scaling arm: ONLY the model shape changes vs runs/lm-scaled.
+# Same ext1 train stream, same 1200 steps, same tokenizer, same frozen eval.
+# 8 layers / 512 dim / 8 heads keeps head_dim=64 as in the baseline.
+data:
+  mix: wiki_zh_corpus_lm_capacity
+  seq_len: 128
+  val_fraction: 0.02
+eval:
+  harness_tasks: []
+  milestones:
+  - 0.5
+  - 1.0
+experiment: wanxiang-lm-baseline
+model:
+  dim: 512
+  heads: 8
+  layers: 8
+  vocab_size: 8192
+recover:
+  early_stop_patience: 12
+  loss_spike_sigma: 10.0
+  max_retries: 3
+  spike_window: 50
+seed: 42
+train:
+  ckpt_every_steps: 100
+  global_batch_tokens: 32768
+  grad_clip: 1.0
+  lr_peak: 0.001
+  max_steps: 1200
+  precision: fp32
+  val_every_steps: 50
+  warmup_steps: 30

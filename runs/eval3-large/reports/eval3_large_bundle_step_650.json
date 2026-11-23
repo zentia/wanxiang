@@ -1,0 +1,67 @@
+{
+  "bundle_config_hash": "cb1ed55fa6c3143640f7be501184b4d47714ecb79d03546d586241b1b21c3b96",
+  "bundle_step": 650,
+  "chat_template_hash": "75aa259402df72852a4d4010abf3093b792c1f8e10ce9781eefef3e59675e024",
+  "checks": {
+    "control_consistent": true,
+    "quality_passed": false
+  },
+  "corpus_manifest_hash": "bd3a69c56a89533ac9ff3243fd23ec64fdceebdbd9773fc81aff4b3220c45978",
+  "device": "cpu",
+  "empty_reply_rate": 0.0,
+  "evalspec_hash": "d806a5e1a6778b47cf9c0e7505e148c9678f6c2cb54367424ede2ac2e9274fa2",
+  "examples": [
+    {
+      "composite": 0.0,
+      "question": "请解释成语《安危与共》的意思",
+      "reference": "形容关系密切，利害相连",
+      "reply": "指处境非常危险，不可阻碍，不可而不可收拾的人民，不可阻挡的人民间的地方，不可以防备的人，不可以防"
+    },
+    {
+      "composite": 0.0546,
+      "question": "成语《暗无天日》是什么意思",
+      "reference": "形容在反动势力统治下社会的黑暗",
+      "reply": "指无所不有的地方或地上天下太阳，没有地方可以找出来的地方或地下子就成为天下的地方，没有什么事物的"
+    },
+    {
+      "composite": 0.0607,
+      "question": "请说出《傲不可长》的含义",
+      "reference": "傲慢之心不可以滋长",
+      "reply": "指不可而不可收拾的人力，不可收获的人力而不可收获的人力就象起来的力量，不可收获的人力量，不可收获"
+    },
+    {
+      "composite": 0.0322,
+      "question": "请解释成语《白首相庄》的意思",
+      "reference": "指夫妇到老犹相敬爱",
+      "reply": "比喻不可靠近，不能相反，不可以看出来的东西，不能相反的东西，不能相反的东西，不能相反的东西，不可"
+    },
+    {
+      "composite": 0.0,
+      "question": "成语《白兔赤乌》是什么意思",
+      "reference": "多借指时间",
+      "reply": "比喻不可靠的东西或不可收获的东西或不可收获的东西，不可以使人知道的东西，不可以使人知道它的东西，"
+    }
+  ],
+  "format_version": "wanxiang-eval3-report-1",
+  "gen_tokens": 48,
+  "metrics": {
+    "char_f1": 0.06407086037200944,
+    "composite": 0.05100489643075957,
+    "edit_similarity": 0.03526678047646492,
+    "exact_match": 0.0,
+    "rouge_l": 0.06107732062220934
+  },
+  "negative_control": {
+    "char_f1": 0.04441387460956523,
+    "composite": 0.034650985216941065,
+    "edit_similarity": 0.022305899604167723,
+    "exact_match": 0.0,
+    "rouge_l": 0.041414184840938104
+  },
+  "note": "Word-level holdout: questions are unseen idioms excluded from pretrain+SFT. Objective character metrics only.",
+  "qa_count": 150,
+  "status": "PARTIAL",
+  "tokenizer_hash": "7454de15a2a009fef273e640084f5da7bf5f91b0506fbfadb0a06991274215fa",
+  "tokenizer_type": "char",
+  "tokenizer_vocab_size": 8192
+}

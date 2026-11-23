@@ -1,0 +1,67 @@
+{
+  "bundle_config_hash": "b36cd76970966c0bdabf462f67733f10389c5b1059e73cba17f9f3d3b967a406",
+  "bundle_step": 1300,
+  "chat_template_hash": "75aa259402df72852a4d4010abf3093b792c1f8e10ce9781eefef3e59675e024",
+  "checks": {
+    "control_consistent": true,
+    "quality_passed": false
+  },
+  "corpus_manifest_hash": "bd3a69c56a89533ac9ff3243fd23ec64fdceebdbd9773fc81aff4b3220c45978",
+  "device": "cpu",
+  "empty_reply_rate": 0.0,
+  "evalspec_hash": "d806a5e1a6778b47cf9c0e7505e148c9678f6c2cb54367424ede2ac2e9274fa2",
+  "examples": [
+    {
+      "composite": 0.0556,
+      "question": "请解释成语《安危与共》的意思",
+      "reference": "形容关系密切，利害相连",
+      "reply": "安安于危，工作与人民安定舒适，安定舒通，有所纠正都达到很稳定，后形容事情接受的，不必完整的，安宁不适的日子，就不"
+    },
+    {
+      "composite": 0.026,
+      "question": "成语《暗无天日》是什么意思",
+      "reference": "形容在反动势力统治下社会的黑暗",
+      "reply": "指没有天、游游生活之苦无穷无尽年无力之年老年无力之年无力之年无力之年无尽之年无力之年无力之年无力可怕"
+    },
+    {
+      "composite": 0.0393,
+      "question": "请说出《傲不可长》的含义",
+      "reference": "傲慢之心不可以滋长",
+      "reply": "指大量的深浅的处所迷惑或困难地做人能克服困难，很难受偿不了所受的损害，最大艰难的境地为之冒险的困境地补救自己的"
+    },
+    {
+      "composite": 0.0863,
+      "question": "请解释成语《白首相庄》的意思",
+      "reference": "指夫妇到老犹相敬爱",
+      "reply": "黄色古代诗文中用来赞誉妇女的头巾和发饰，借指老相等的男女优秀人优秀的女子互相称赞自己尊贵之物为才进行誉称誉、称誉的人级"
+    },
+    {
+      "composite": 0.03,
+      "question": "成语《白兔赤乌》是什么意思",
+      "reference": "多借指时间",
+      "reply": "白璧洁白廉洁，在黄石头中明水明水热昵怕死去被杀，表示痛苦而容忍过口之情，表示痛苦而止一时不变故活下来贫困"
+    }
+  ],
+  "format_version": "wanxiang-eval3-report-1",
+  "gen_tokens": 48,
+  "metrics": {
+    "char_f1": 0.0881999515175957,
+    "composite": 0.0669401804692113,
+    "edit_similarity": 0.04244956765473822,
+    "exact_match": 0.0,
+    "rouge_l": 0.07723428777075124
+  },
+  "negative_control": {
+    "char_f1": 0.05281450573397587,
+    "composite": 0.040710340772904946,
+    "edit_similarity": 0.026347848049224288,
+    "exact_match": 0.0,
+    "rouge_l": 0.04771656289823246
+  },
+  "note": "Word-level holdout: questions are unseen idioms excluded from pretrain+SFT. Objective character metrics only.",
+  "qa_count": 150,
+  "status": "PARTIAL",
+  "tokenizer_hash": "429d3f699bf2e98b0b204114c69af02d707b200d018cbadf1bc63a141a45443a",
+  "tokenizer_type": "bpe",
+  "tokenizer_vocab_size": 8192
+}

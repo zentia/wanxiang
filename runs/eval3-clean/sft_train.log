@@ -1,0 +1,21 @@
+2026-11-23 08:49:00,127 autotrain.trainer.runner INFO resumed from runs/eval3-clean/sft_train/checkpoints/ckpt_step_600.pt at step 600
+2026-11-23 08:49:00,173 autotrain.trainer.runner INFO resumed from runs/eval3-clean/sft_train/checkpoints/ckpt_step_600.pt at step 600
+2026-11-23 08:49:39,780 autotrain.trainer.runner INFO step 650 | loss 3.9145 | val 4.2918 | lr 9.99e-04
+2026-11-23 08:50:19,280 autotrain.trainer.runner INFO step 700 | loss 3.4141 | val 4.2273 | lr 9.28e-04
+2026-11-23 08:50:58,940 autotrain.trainer.runner INFO step 750 | loss 3.1060 | val 4.1473 | lr 8.55e-04
+2026-11-23 08:51:38,464 autotrain.trainer.runner INFO step 800 | loss 2.6255 | val 4.2106 | lr 7.83e-04
+2026-11-23 08:52:18,137 autotrain.trainer.runner INFO step 850 | loss 2.3514 | val 4.2367 | lr 7.11e-04
+2026-11-23 08:52:57,630 autotrain.trainer.runner INFO step 900 | loss 1.9388 | val 4.2728 | lr 6.40e-04
+2026-11-23 08:53:37,347 autotrain.trainer.runner INFO step 950 | loss 1.7003 | val 4.3519 | lr 5.71e-04
+2026-11-23 08:54:16,878 autotrain.trainer.runner INFO step 1000 | loss 1.3567 | val 4.5427 | lr 5.06e-04
+2026-11-23 08:54:56,551 autotrain.trainer.runner INFO step 1050 | loss 0.9597 | val 4.7149 | lr 4.44e-04
+2026-11-23 08:55:36,076 autotrain.trainer.runner INFO step 1100 | loss 0.8417 | val 4.7896 | lr 3.86e-04
+2026-11-23 08:56:15,780 autotrain.trainer.runner INFO step 1150 | loss 0.5620 | val 4.9099 | lr 3.34e-04
+2026-11-23 08:56:55,265 autotrain.trainer.runner INFO step 1200 | loss 0.4570 | val 5.1431 | lr 2.87e-04
+2026-11-23 08:57:34,965 autotrain.trainer.runner INFO step 1250 | loss 0.3454 | val 5.1329 | lr 2.46e-04
+2026-11-23 08:58:14,478 autotrain.trainer.runner INFO step 1300 | loss 0.2414 | val 5.3320 | lr 2.12e-04
+2026-11-23 08:58:54,152 autotrain.trainer.runner INFO step 1350 | loss 0.1803 | val 5.3854 | lr 1.85e-04
+2026-11-23 08:58:54,152 autotrain.trainer.runner INFO early stop: val loss stalled for 12 evaluations
+2026-11-23 08:58:54,450 autotrain.trainer.runner INFO training finished: {'status': 'CONVERGED_EARLY', 'steps': 1350, 'final_val_loss': 5.385447859764099, 'tokens_seen': 44236800, 'elapsed_sec': 594.2764830589294, 'tokens_per_sec': 74438.07934700557, 'checkpoint': 'runs/eval3-clean/sft_train/checkpoints/ckpt_step_1350.pt'}
+SEEDED_FROM_M2 step=600 hash=5514aecf02b2
+SFT_SUMMARY={"checkpoint": "runs/eval3-clean/sft_train/checkpoints/ckpt_step_1350.pt", "elapsed_sec": 594.2764830589294, "final_val_loss": 5.385447859764099, "status": "CONVERGED_EARLY", "steps": 1350, "tokens_per_sec": 74438.07934700557, "tokens_seen": 44236800}

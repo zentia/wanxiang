@@ -1,0 +1,63 @@
+{
+  "answer_source": "retrieval",
+  "checks": {
+    "quality_passed": true
+  },
+  "comparable_with_eval3": false,
+  "corpus_manifest_hash": "bd3a69c56a89533ac9ff3243fd23ec64fdceebdbd9773fc81aff4b3220c45978",
+  "evalspec_hash": "33d7aec49d1ed3ff1108e3265dcf856d43979317a3ab57a72631c772c1860771",
+  "evalspec_version": "wanxiang-eval-4",
+  "exact_hit_rate": 1.0,
+  "examples": [
+    {
+      "composite": 1.0,
+      "method": "exact",
+      "question": "请解释成语《安危与共》的意思",
+      "reference": "形容关系密切，利害相连",
+      "reply": "形容关系密切，利害相连"
+    },
+    {
+      "composite": 1.0,
+      "method": "exact",
+      "question": "成语《暗无天日》是什么意思",
+      "reference": "形容在反动势力统治下社会的黑暗",
+      "reply": "形容在反动势力统治下社会的黑暗"
+    },
+    {
+      "composite": 1.0,
+      "method": "exact",
+      "question": "请说出《傲不可长》的含义",
+      "reference": "傲慢之心不可以滋长",
+      "reply": "傲慢之心不可以滋长"
+    },
+    {
+      "composite": 1.0,
+      "method": "exact",
+      "question": "请解释成语《白首相庄》的意思",
+      "reference": "指夫妇到老犹相敬爱",
+      "reply": "指夫妇到老犹相敬爱"
+    },
+    {
+      "composite": 1.0,
+      "method": "exact",
+      "question": "成语《白兔赤乌》是什么意思",
+      "reference": "多借指时间",
+      "reply": "多借指时间"
+    }
+  ],
+  "format_version": "wanxiang-eval4-report-1",
+  "index_hash": "478bf2f10a24ec1c",
+  "methods": {
+    "exact": 150
+  },
+  "metrics": {
+    "char_f1": 1.0,
+    "composite": 1.0,
+    "edit_similarity": 1.0,
+    "exact_match": 1.0,
+    "rouge_l": 1.0
+  },
+  "note": "Lookup tool with full dictionary (holdout included). High score = retrieval works, NOT that the generator generalised.",
+  "qa_count": 150,
+  "status": "PASSED"
+}

@@ -1,0 +1,15 @@
+{
+  "char_tokenizer_hash": "7454de15a2a009fef273e640084f5da7bf5f91b0506fbfadb0a06991274215fa",
+  "eval3_corpus_manifest_hash": "bd3a69c56a89533ac9ff3243fd23ec64fdceebdbd9773fc81aff4b3220c45978",
+  "holdout_count": 300,
+  "holdout_seed": 20261123,
+  "m2_corpus_id": "3c05d962487d8311",
+  "m2_tokens": 1970047,
+  "sft_corpus_id": "109d3bcfc8e05a91",
+  "sft_labels": 975643,
+  "sft_tokens": 975643,
+  "tokenizer_hash": "429d3f699bf2e98b0b204114c69af02d707b200d018cbadf1bc63a141a45443a",
+  "tokenizer_n_merges": 1000,
+  "tokenizer_type": "bpe",
+  "tokenizer_vocab_size": 8192
+}

@@ -1,0 +1,28 @@
+{
+  "after_composite": 0.0669401804692113,
+  "after_status": "PARTIAL",
+  "after_step": 1300,
+  "after_tokenizer": {
+    "hash": "429d3f699bf2e98b",
+    "type": "bpe",
+    "vocab_size": 8192
+  },
+  "before_composite": 0.06757165636494762,
+  "before_status": "PARTIAL",
+  "before_step": 1350,
+  "before_tokenizer": {
+    "hash": "7454de15a2a009fe",
+    "type": "char",
+    "vocab_size": 8192
+  },
+  "compatible": true,
+  "cross_tokenizer": true,
+  "delta_composite": -0.0006314758957363248,
+  "format_version": "wanxiang-eval3-tokenizer-compare-1",
+  "min_improvement": 0.02,
+  "note": "Same frozen eval-3 questions/answers/scoring/gen budget; only tokenizer encoding changed (char -> BPE or reverse).",
+  "protocol_differences": [],
+  "tokenizer_changed": true,
+  "verdict": "NO_CHANGE",
+  "vocab_size_matched": true
+}

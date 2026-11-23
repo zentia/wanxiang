@@ -1,0 +1,67 @@
+{
+  "bundle_config_hash": "cb1ed55fa6c3143640f7be501184b4d47714ecb79d03546d586241b1b21c3b96",
+  "bundle_step": 800,
+  "chat_template_hash": "75aa259402df72852a4d4010abf3093b792c1f8e10ce9781eefef3e59675e024",
+  "checks": {
+    "control_consistent": true,
+    "quality_passed": false
+  },
+  "corpus_manifest_hash": "bd3a69c56a89533ac9ff3243fd23ec64fdceebdbd9773fc81aff4b3220c45978",
+  "device": "cpu",
+  "empty_reply_rate": 0.0,
+  "evalspec_hash": "d806a5e1a6778b47cf9c0e7505e148c9678f6c2cb54367424ede2ac2e9274fa2",
+  "examples": [
+    {
+      "composite": 0.0269,
+      "question": "请解释成语《安危与共》的意思",
+      "reference": "形容关系密切，利害相连",
+      "reply": "指安定无定无定之世，没有名望的世事，不能随时没有能胜任，要求得上，要求得上，而由于人能胜利的人，"
+    },
+    {
+      "composite": 0.1389,
+      "question": "成语《暗无天日》是什么意思",
+      "reference": "形容在反动势力统治下社会的黑暗",
+      "reply": "形容社会的社会地理事或社会的严重，无人的生活条件或事情的严重，无法挽救的的程度，得到无法挽救的地"
+    },
+    {
+      "composite": 0.0911,
+      "question": "请说出《傲不可长》的含义",
+      "reference": "傲慢之心不可以滋长",
+      "reply": "慢慢慢慢，不可动摇地做了不了不可收拾的事，不可把老样做不可收下去做他去做他的事，不可动摇地做事不"
+    },
+    {
+      "composite": 0.0966,
+      "question": "请解释成语《白首相庄》的意思",
+      "reference": "指夫妇到老犹相敬爱",
+      "reply": "指相互敬，相互敬相敬地，互相庆幸的人互相敬敬，互相庆贺的男女关系一下，不相上下，一无所不谈的事，"
+    },
+    {
+      "composite": 0.0,
+      "question": "成语《白兔赤乌》是什么意思",
+      "reference": "多借指时间",
+      "reply": "比喻一无所不在，不能实现的事，不能达到目的或不会达到目的或不可能达到目的或不可能达到目的或不可能"
+    }
+  ],
+  "format_version": "wanxiang-eval3-report-1",
+  "gen_tokens": 48,
+  "metrics": {
+    "char_f1": 0.08112098316096948,
+    "composite": 0.06266234114479388,
+    "edit_similarity": 0.04007102724643061,
+    "exact_match": 0.0,
+    "rouge_l": 0.07399914143706657
+  },
+  "negative_control": {
+    "char_f1": 0.05260713931003584,
+    "composite": 0.040607500568567774,
+    "edit_similarity": 0.02616852111304738,
+    "exact_match": 0.0,
+    "rouge_l": 0.04776980207314656
+  },
+  "note": "Word-level holdout: questions are unseen idioms excluded from pretrain+SFT. Objective character metrics only.",
+  "qa_count": 150,
+  "status": "PARTIAL",
+  "tokenizer_hash": "7454de15a2a009fef273e640084f5da7bf5f91b0506fbfadb0a06991274215fa",
+  "tokenizer_type": "char",
+  "tokenizer_vocab_size": 8192
+}

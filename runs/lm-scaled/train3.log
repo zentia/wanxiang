@@ -1,0 +1,23 @@
+2026-11-23 16:51:52,864 autotrain.trainer.runner INFO resume lr override: peak=1.00e-04 lr=1.00e-04
+2026-11-23 16:51:52,864 autotrain.trainer.runner INFO resumed from runs/lm-scaled/checkpoints/ckpt_step_400.pt at step 400
+2026-11-23 16:52:25,847 autotrain.trainer.runner INFO step 450 | loss 5.8894 | val 6.0051 | lr 9.96e-05
+2026-11-23 16:52:58,493 autotrain.trainer.runner INFO step 500 | loss 5.8230 | val 5.9615 | lr 9.84e-05
+2026-11-23 16:53:23,301 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05
+2026-11-23 16:53:49,222 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05
+2026-11-23 16:54:15,243 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05
+2026-11-23 16:54:41,375 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05
+2026-11-23 16:55:07,402 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05
+2026-11-23 16:55:33,491 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05
+2026-11-23 16:55:59,623 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05
+2026-11-23 16:56:25,789 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05
+2026-11-23 16:56:52,000 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05
+2026-11-23 16:57:18,230 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05
+2026-11-23 16:57:44,397 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05
+2026-11-23 16:58:10,632 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05
+2026-11-23 16:58:36,657 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05
+2026-11-23 16:59:02,829 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05
+2026-11-23 16:59:28,993 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05
+2026-11-23 16:59:55,320 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05
+2026-11-23 17:00:21,635 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05
+2026-11-23 17:00:48,093 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05
+2026-11-23 17:01:14,400 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 4.92e-05

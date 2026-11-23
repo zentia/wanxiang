@@ -1,0 +1,67 @@
+{
+  "bundle_config_hash": "cb1ed55fa6c3143640f7be501184b4d47714ecb79d03546d586241b1b21c3b96",
+  "bundle_step": 1300,
+  "chat_template_hash": "75aa259402df72852a4d4010abf3093b792c1f8e10ce9781eefef3e59675e024",
+  "checks": {
+    "control_consistent": true,
+    "quality_passed": false
+  },
+  "corpus_manifest_hash": "bd3a69c56a89533ac9ff3243fd23ec64fdceebdbd9773fc81aff4b3220c45978",
+  "device": "cpu",
+  "empty_reply_rate": 0.0,
+  "evalspec_hash": "d806a5e1a6778b47cf9c0e7505e148c9678f6c2cb54367424ede2ac2e9274fa2",
+  "examples": [
+    {
+      "composite": 0.0932,
+      "question": "请解释成语《安危与共》的意思",
+      "reference": "形容关系密切，利害相连",
+      "reply": "形容非常安定稳固，在紧急的情况下来不及选择存身的地方，不但重大经交、相互转化、相互转化、相互转化"
+    },
+    {
+      "composite": 0.0805,
+      "question": "成语《暗无天日》是什么意思",
+      "reference": "形容在反动势力统治下社会的黑暗",
+      "reply": "形容极其悲恸极为悲伤或极端消灭或极端消灭或极端消灭或极端消灭或绝境十分悲伤的境地中都有了极点，或"
+    },
+    {
+      "composite": 0.0293,
+      "question": "请说出《傲不可长》的含义",
+      "reference": "傲慢之心不可以滋长",
+      "reply": "形容极其坚固、困难重要发展的事情也都不能推测不能进行进行进行进行进行进行进行进行进行进行进行进行"
+    },
+    {
+      "composite": 0.0585,
+      "question": "请解释成语《白首相庄》的意思",
+      "reference": "指夫妇到老犹相敬爱",
+      "reply": "比喻互相敬仰、互相依存的朋友相互依存，互相支持、援助或互相庆贺或称赞诗的古代、颂誉和私相、私论之"
+    },
+    {
+      "composite": 0.0324,
+      "question": "成语《白兔赤乌》是什么意思",
+      "reference": "多借指时间",
+      "reply": "比喻官吏残酷搜刮、坏人坏事，陷害人民的灾祸，侵害人民的人或人民群众多的人或事故的人或被侵略者的人"
+    }
+  ],
+  "format_version": "wanxiang-eval3-report-1",
+  "gen_tokens": 48,
+  "metrics": {
+    "char_f1": 0.10714954766686596,
+    "composite": 0.08353078795671158,
+    "edit_similarity": 0.05650645571569797,
+    "exact_match": 0.0,
+    "rouge_l": 0.09789892582275198
+  },
+  "negative_control": {
+    "char_f1": 0.057207710738138795,
+    "composite": 0.043897457864568785,
+    "edit_similarity": 0.027325198589934246,
+    "exact_match": 0.0,
+    "rouge_l": 0.05183111283775471
+  },
+  "note": "Word-level holdout: questions are unseen idioms excluded from pretrain+SFT. Objective character metrics only.",
+  "qa_count": 150,
+  "status": "PARTIAL",
+  "tokenizer_hash": "7454de15a2a009fef273e640084f5da7bf5f91b0506fbfadb0a06991274215fa",
+  "tokenizer_type": "char",
+  "tokenizer_vocab_size": 8192
+}

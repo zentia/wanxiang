@@ -1,0 +1,42 @@
+{
+  "answer_source": "autotrain.split.answer_for_row (shared with SFT labels)",
+  "chat_template": {
+    "template_hash": "75aa259402df72852a4d4010abf3093b792c1f8e10ce9781eefef3e59675e024",
+    "version": "wanxiang-chat-1"
+  },
+  "control_rotation": 37,
+  "corpus_manifest_hash": "12decfa72f2372f13bfc4ff8131820caa6f672e3b308044298043fefbdf4588f",
+  "files": {
+    "holdout_words.json": {
+      "bytes": 6137,
+      "rows": null,
+      "sha256": "9001affd523df8f4a6c4ad77737f33317fd9927c55e5d7aa882a3408db1f9a78"
+    },
+    "negative_control.jsonl": {
+      "bytes": 24609,
+      "rows": 150,
+      "sha256": "b6ee18fff8977afd2406b3eab9b5afc12806dc8f4e0e2dd9568095505bb87b21"
+    },
+    "qa.jsonl": {
+      "bytes": 19404,
+      "rows": 150,
+      "sha256": "cfa744b47ee7dc4fb91d0dd239af8986271f73c7a4d694f8a566f779d96a7d44"
+    }
+  },
+  "format_version": "wanxiang-eval-3",
+  "frozen": true,
+  "holdout_count": 300,
+  "holdout_seed": 20261123,
+  "holdout_strategy": "word-level: all samples of a holdout word excluded from pretrain and SFT streams",
+  "note": "Frozen word-holdout instrument. Never regenerate in place. INCOMPARABLE with eval-2 by design.",
+  "qa_count": 150,
+  "source": {
+    "path": "runs/m2/sources/idiom.json",
+    "sha256": "1d4b4f454ce1c416d6a1ab2369d6e66c0ff99e04390172eef70790499e21ce19"
+  },
+  "tokenizer": {
+    "sha256": "7454de15a2a009fef273e640084f5da7bf5f91b0506fbfadb0a06991274215fa",
+    "type": "char",
+    "vocab_size": 8192
+  }
+}

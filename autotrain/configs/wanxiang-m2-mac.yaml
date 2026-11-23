@@ -1,0 +1,39 @@
+# Mac (Apple Silicon) training config for the M2 Chinese-idiom corpus.
+# Scale-up over the phone-sized wanxiang-android-m2-tiny (2L/128d/1.6M):
+#   6 layers, 384 dim, 6 heads -> ~10M params; seq_len 128, fp32 CPU/MPS.
+# VOCAB_SIZE stays 8192 so the M1.5 frozen eval spec and the M2 char tokenizer
+# remain valid. This is a new experiment (its own config_hash); Android tiny
+# checkpoints are not reused (phone runs/ never left the phone).
+experiment: wanxiang-m2-mac
+seed: 42
+
+data:
+  mix: m2_char_corpus
+  seq_len: 128
+  val_fraction: 0.02
+
+model:
+  layers: 6
+  dim: 384
+  heads: 6
+  vocab_size: 8192
+
+train:
+  global_batch_tokens: 32768
+  lr_peak: 1.5e-3
+  warmup_steps: 40
+  max_steps: 600
+  precision: fp32
+  ckpt_every_steps: 100
+  val_every_steps: 50
+  grad_clip: 1.0
+
+recover:
+  max_retries: 3
+  loss_spike_sigma: 3.0
+  spike_window: 50
+  early_stop_patience: 12
+
+eval:
+  harness_tasks: []
+  milestones: [0.5, 1.0]

@@ -1,0 +1,11 @@
+{
+  "compatible": true,
+  "delta": 0.9164692120432885,
+  "format_version": "wanxiang-eval4-compare-1",
+  "generator_composite": 0.08353078795671158,
+  "generator_exact_match": 0.0,
+  "note": "Same questions/references; answer source differs (generator vs lookup). This measures tool usability.",
+  "retrieval_composite": 1.0,
+  "retrieval_exact_match": 1.0,
+  "verdict": "RETRIEVAL_SUPERIOR"
+}

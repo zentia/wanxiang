@@ -1,0 +1,62 @@
+{
+  "curve": [
+    {
+      "frozen_holdout_perplexity": 38.26536906857588,
+      "step": 3600,
+      "train_internal_val_loss": 4.6677
+    },
+    {
+      "frozen_holdout_perplexity": 37.66864088692464,
+      "step": 3700,
+      "train_internal_val_loss": 4.6366
+    },
+    {
+      "frozen_holdout_perplexity": 36.66756838175351,
+      "step": 3800,
+      "train_internal_val_loss": 4.592
+    },
+    {
+      "frozen_holdout_perplexity": 36.33676609817063,
+      "step": 3900,
+      "train_internal_val_loss": 4.6653
+    },
+    {
+      "frozen_holdout_perplexity": 35.763125168776895,
+      "step": 4000,
+      "train_internal_val_loss": 4.6438
+    },
+    {
+      "frozen_holdout_perplexity": 36.31839364319608,
+      "step": 4100,
+      "train_internal_val_loss": 4.6138
+    },
+    {
+      "frozen_holdout_perplexity": 36.346746012698624,
+      "step": 4200,
+      "train_internal_val_loss": 4.606
+    },
+    {
+      "frozen_holdout_perplexity": 34.69519478904639,
+      "step": 4300,
+      "train_internal_val_loss": 4.5943
+    },
+    {
+      "frozen_holdout_perplexity": 34.9144963252204,
+      "step": 4350,
+      "train_internal_val_loss": 4.5991
+    }
+  ],
+  "early_stop": {
+    "min_delta": 1e-05,
+    "patience_evaluations": 12,
+    "train_val_best_step": 3750,
+    "triggered_at_step": 4350
+  },
+  "eval_lm_hash": "2b70b6f6793432ab",
+  "frozen_holdout_best_step": 4300,
+  "frozen_ppl_at_3800": 36.66756838175351,
+  "frozen_ppl_at_final": 34.9144963252204,
+  "frozen_ppl_drop_after_train_val_best": 1.7530720565331137,
+  "question": "Was the step-4350 early stop premature on the frozen ruler?",
+  "verdict": "PREMATURE: frozen ppl keeps dropping after the train-val best, so tail-val early stop fired too early"
+}

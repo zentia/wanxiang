@@ -1,0 +1,57 @@
+{
+  "report": {
+    "bundle": {
+      "device": "mps",
+      "dtype": "float32",
+      "model_id": "WanxiangModel",
+      "path": "runs/lm-scaled3/bundle_diag_step4000",
+      "step": 4000
+    },
+    "comparability": {
+      "comparable_with": [
+        "wanxiang-eval-lm"
+      ],
+      "incomparable_with": [
+        "wanxiang-eval-2",
+        "wanxiang-eval-3",
+        "wanxiang-eval-4"
+      ],
+      "note": "Cross-entropy/perplexity on a frozen text holdout. NOT comparable with eval2/3/4 answer-quality or eval4 retrieval."
+    },
+    "corpus": {
+      "corpus_id": "81bd7bb3646e57be",
+      "path": "runs/corpus/lm"
+    },
+    "eval_lm_hash": "2b70b6f6793432ab",
+    "family": "wanxiang-eval-lm",
+    "scores": {
+      "cross_entropy": 3.5769173393496683,
+      "perplexity": 35.763125168776895,
+      "tokens": 118528.0
+    },
+    "spec": {
+      "batch_size": 16,
+      "comparable_with": [
+        "wanxiang-eval-lm"
+      ],
+      "corpus_id": "81bd7bb3646e57be",
+      "corpus_version": "wanxiang-corpus-lm-1",
+      "eval_lm_hash": "2b70b6f6793432ab",
+      "family": "wanxiang-eval-lm",
+      "holdout_sha256": "65947b9599d9256130c574ea50426ffc23e23fe42b524ddbb7e7314fa4c2ec6b",
+      "holdout_tokens": 119500,
+      "incomparable_with": [
+        "wanxiang-eval-2",
+        "wanxiang-eval-3",
+        "wanxiang-eval-4"
+      ],
+      "metric": "token-level cross-entropy / perplexity over frozen holdout",
+      "seed": 42,
+      "seq_len": 128,
+      "tokenizer_sha256": "8ee357138775bba721c98f596564c719c5926cc108c11e8109cac02887d96188",
+      "version": "wanxiang-eval-lm-1"
+    },
+    "version": "wanxiang-eval-lm-1",
+    "windows_scored": 926
+  }
+}

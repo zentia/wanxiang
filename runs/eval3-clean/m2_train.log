@@ -1,0 +1,15 @@
+2026-11-23 08:40:58,888 autotrain.trainer.runner INFO step 1 | loss 9.0673 | val 8.9409 | lr 3.75e-05
+2026-11-23 08:41:37,636 autotrain.trainer.runner INFO step 50 | loss 6.3803 | val 6.6517 | lr 1.50e-03
+2026-11-23 08:42:17,093 autotrain.trainer.runner INFO step 100 | loss 5.8163 | val 6.1108 | lr 1.46e-03
+2026-11-23 08:42:56,741 autotrain.trainer.runner INFO step 150 | loss 5.5141 | val 5.7753 | lr 1.38e-03
+2026-11-23 08:43:36,234 autotrain.trainer.runner INFO step 200 | loss 5.3382 | val 5.5629 | lr 1.25e-03
+2026-11-23 08:44:15,912 autotrain.trainer.runner INFO step 250 | loss 5.0238 | val 5.3632 | lr 1.09e-03
+2026-11-23 08:44:55,377 autotrain.trainer.runner INFO step 300 | loss 4.7102 | val 5.1693 | lr 9.04e-04
+2026-11-23 08:45:35,044 autotrain.trainer.runner INFO step 350 | loss 4.7402 | val 5.0249 | lr 7.16e-04
+2026-11-23 08:46:14,537 autotrain.trainer.runner INFO step 400 | loss 4.6298 | val 4.9292 | lr 5.36e-04
+2026-11-23 08:46:54,189 autotrain.trainer.runner INFO step 450 | loss 4.4035 | val 4.8493 | lr 3.78e-04
+2026-11-23 08:47:33,689 autotrain.trainer.runner INFO step 500 | loss 4.2345 | val 4.7758 | lr 2.55e-04
+2026-11-23 08:48:13,371 autotrain.trainer.runner INFO step 550 | loss 4.2008 | val 4.7048 | lr 1.77e-04
+2026-11-23 08:48:52,837 autotrain.trainer.runner INFO step 600 | loss 4.2147 | val 4.6795 | lr 1.50e-04
+2026-11-23 08:48:53,351 autotrain.trainer.runner INFO training finished: {'status': 'DONE', 'steps': 600, 'final_val_loss': 4.679470896720886, 'tokens_seen': 19660800, 'elapsed_sec': 475.46794414520264, 'tokens_per_sec': 41350.42171001923, 'checkpoint': 'runs/eval3-clean/m2_train/checkpoints/ckpt_step_600.pt'}
+M2_SUMMARY={"checkpoint": "runs/eval3-clean/m2_train/checkpoints/ckpt_step_600.pt", "elapsed_sec": 475.46794414520264, "final_val_loss": 4.679470896720886, "status": "DONE", "steps": 600, "tokens_per_sec": 41350.42171001923, "tokens_seen": 19660800}

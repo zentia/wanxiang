@@ -1,0 +1,67 @@
+{
+  "bundle_config_hash": "cb1ed55fa6c3143640f7be501184b4d47714ecb79d03546d586241b1b21c3b96",
+  "bundle_step": 700,
+  "chat_template_hash": "75aa259402df72852a4d4010abf3093b792c1f8e10ce9781eefef3e59675e024",
+  "checks": {
+    "control_consistent": true,
+    "quality_passed": false
+  },
+  "corpus_manifest_hash": "bd3a69c56a89533ac9ff3243fd23ec64fdceebdbd9773fc81aff4b3220c45978",
+  "device": "cpu",
+  "empty_reply_rate": 0.0,
+  "evalspec_hash": "d806a5e1a6778b47cf9c0e7505e148c9678f6c2cb54367424ede2ac2e9274fa2",
+  "examples": [
+    {
+      "composite": 0.066,
+      "question": "请解释成语《安危与共》的意思",
+      "reference": "形容关系密切，利害相连",
+      "reply": "形容人民安定，生活艰苦，生活艰苦，人民安定，安定安定，安定安定定定民民，安定安定民民，安定安定，"
+    },
+    {
+      "composite": 0.0848,
+      "question": "成语《暗无天日》是什么意思",
+      "reference": "形容在反动势力统治下社会的黑暗",
+      "reply": "形容极端惊恐或惊慌的样子，没有什么都有了主意的样子，没有主意，没有主意的事情都有了事情的样子，没"
+    },
+    {
+      "composite": 0.0298,
+      "question": "请说出《傲不可长》的含义",
+      "reference": "傲慢之心不可以滋长",
+      "reply": "形容人不敢让人不敢让人不敢让人不敢让人不敢让人看得怎么办才好，就怎么办才好了事情，就能够得不敢说"
+    },
+    {
+      "composite": 0.0596,
+      "question": "请解释成语《白首相庄》的意思",
+      "reference": "指夫妇到老犹相敬爱",
+      "reply": "比喻人有才能的人有才能的能不到相合实际的事物不能实现的不同，就会有不同的事物相合宜，不能相合的人"
+    },
+    {
+      "composite": 0.0,
+      "question": "成语《白兔赤乌》是什么意思",
+      "reference": "多借指时间",
+      "reply": "比喻人品德高尚，不可能达到目的的东西不能实现的人却不能实现的人不能实现的人不能实现的事物不能实现"
+    }
+  ],
+  "format_version": "wanxiang-eval3-report-1",
+  "gen_tokens": 48,
+  "metrics": {
+    "char_f1": 0.08037601943410329,
+    "composite": 0.063539254968066,
+    "edit_similarity": 0.04342542020802051,
+    "exact_match": 0.0,
+    "rouge_l": 0.07567921050940196
+  },
+  "negative_control": {
+    "char_f1": 0.048904412354431784,
+    "composite": 0.03862856385530524,
+    "edit_similarity": 0.025685602583876303,
+    "exact_match": 0.0,
+    "rouge_l": 0.04643226132252421
+  },
+  "note": "Word-level holdout: questions are unseen idioms excluded from pretrain+SFT. Objective character metrics only.",
+  "qa_count": 150,
+  "status": "PARTIAL",
+  "tokenizer_hash": "7454de15a2a009fef273e640084f5da7bf5f91b0506fbfadb0a06991274215fa",
+  "tokenizer_type": "char",
+  "tokenizer_vocab_size": 8192
+}

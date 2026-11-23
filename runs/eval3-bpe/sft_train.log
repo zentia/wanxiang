@@ -1,0 +1,36 @@
+2026-11-23 09:39:53,832 autotrain.trainer.runner INFO resumed from runs/eval3-bpe/sft_train/checkpoints/ckpt_step_600.pt at step 600
+2026-11-23 09:39:53,874 autotrain.trainer.runner INFO resumed from runs/eval3-bpe/sft_train/checkpoints/ckpt_step_600.pt at step 600
+2026-11-23 09:40:33,542 autotrain.trainer.runner INFO step 650 | loss 4.9095 | val 5.1839 | lr 9.99e-04
+2026-11-23 09:41:13,130 autotrain.trainer.runner INFO step 700 | loss 4.3372 | val 5.0117 | lr 9.28e-04
+2026-11-23 09:41:52,910 autotrain.trainer.runner INFO step 750 | loss 3.8377 | val 4.8664 | lr 8.55e-04
+2026-11-23 09:42:32,568 autotrain.trainer.runner INFO step 800 | loss 3.3888 | val 4.8544 | lr 7.83e-04
+2026-11-23 09:43:12,435 autotrain.trainer.runner INFO step 850 | loss 2.9537 | val 4.8458 | lr 7.11e-04
+2026-11-23 09:43:52,135 autotrain.trainer.runner INFO step 900 | loss 2.6565 | val 4.8937 | lr 6.40e-04
+2026-11-23 09:44:32,049 autotrain.trainer.runner INFO step 950 | loss 2.1797 | val 4.9355 | lr 5.71e-04
+2026-11-23 09:45:11,802 autotrain.trainer.runner INFO step 1000 | loss 2.0217 | val 5.0013 | lr 5.06e-04
+2026-11-23 09:45:51,746 autotrain.trainer.runner INFO step 1050 | loss 1.5683 | val 5.1732 | lr 4.44e-04
+2026-11-23 09:46:31,571 autotrain.trainer.runner INFO step 1100 | loss 1.1782 | val 5.2850 | lr 3.86e-04
+2026-11-23 09:47:11,558 autotrain.trainer.runner INFO step 1150 | loss 0.9797 | val 5.4520 | lr 3.34e-04
+2026-11-23 09:47:51,407 autotrain.trainer.runner INFO step 1200 | loss 0.7517 | val 5.6061 | lr 2.87e-04
+2026-11-23 09:48:31,474 autotrain.trainer.runner INFO step 1250 | loss 0.5220 | val 5.7351 | lr 2.46e-04
+2026-11-23 09:49:11,361 autotrain.trainer.runner INFO step 1300 | loss 0.4269 | val 5.9030 | lr 2.12e-04
+2026-11-23 09:49:51,442 autotrain.trainer.runner INFO step 1350 | loss 0.3392 | val 6.0433 | lr 1.85e-04
+2026-11-23 09:50:14,214 autotrain.trainer.runner INFO resumed from runs/eval3-bpe/sft_train/checkpoints/ckpt_step_1300.pt at step 1300
+SEEDED_FROM_M2 step=600 hash=51e3592e0710
+Traceback (most recent call last):
+  File "runs/eval3-bpe/train_sft.py", line 67, in <module>
+    main()
+    ~~~~^^
+  File "runs/eval3-bpe/train_sft.py", line 61, in main
+    assert r.step == SEED_CKPT
+           ^^^^^^^^^^^^^^^^^^^
+AssertionError
+2026-11-23 09:50:27,760 autotrain.trainer.runner INFO resumed from runs/eval3-bpe/sft_train/checkpoints/ckpt_step_1300.pt at step 1300
+2026-11-23 09:50:27,799 autotrain.trainer.runner INFO resumed from runs/eval3-bpe/sft_train/checkpoints/ckpt_step_1300.pt at step 1300
+2026-11-23 09:51:07,414 autotrain.trainer.runner INFO step 1350 | loss 0.3392 | val 6.0433 | lr 1.85e-04
+2026-11-23 09:51:47,016 autotrain.trainer.runner INFO step 1400 | loss 0.2228 | val 6.0516 | lr 1.66e-04
+2026-11-23 09:52:26,842 autotrain.trainer.runner INFO step 1450 | loss 0.1734 | val 6.3080 | lr 1.54e-04
+2026-11-23 09:53:06,494 autotrain.trainer.runner INFO step 1500 | loss 0.1497 | val 6.4112 | lr 1.50e-04
+2026-11-23 09:53:06,982 autotrain.trainer.runner INFO training finished: {'status': 'DONE', 'steps': 1500, 'final_val_loss': 6.411239743232727, 'tokens_seen': 49152000, 'elapsed_sec': 159.18348813056946, 'tokens_per_sec': 308775.7441254417, 'checkpoint': 'runs/eval3-bpe/sft_train/checkpoints/ckpt_step_1500.pt'}
+SEEDED_FROM_M2 step=600 hash=51e3592e0710
+SFT_SUMMARY={"checkpoint": "runs/eval3-bpe/sft_train/checkpoints/ckpt_step_1500.pt", "elapsed_sec": 159.18348813056946, "final_val_loss": 6.411239743232727, "status": "DONE", "steps": 1500, "tokens_per_sec": 308775.7441254417, "tokens_seen": 49152000}

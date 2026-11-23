@@ -1,0 +1,18 @@
+2026-11-23 16:39:45,276 autotrain.trainer.runner INFO resumed from runs/lm-scaled/checkpoints/ckpt_step_400.pt at step 400
+2026-11-23 16:40:18,403 autotrain.trainer.runner INFO step 450 | loss 5.8471 | val 5.9725 | lr 7.44e-04
+2026-11-23 16:40:51,617 autotrain.trainer.runner INFO step 500 | loss 5.7141 | val 5.8271 | lr 6.88e-04
+2026-11-23 16:41:16,564 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 3.43e-04
+2026-11-23 16:41:43,008 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 3.43e-04
+2026-11-23 16:42:09,259 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 3.43e-04
+2026-11-23 16:42:35,451 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 3.43e-04
+2026-11-23 16:43:01,467 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 3.43e-04
+2026-11-23 16:43:27,531 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 3.43e-04
+2026-11-23 16:43:53,680 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 3.43e-04
+2026-11-23 16:44:19,850 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 3.43e-04
+2026-11-23 16:44:46,084 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 3.43e-04
+2026-11-23 16:45:12,384 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 3.43e-04
+2026-11-23 16:45:38,458 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 3.43e-04
+2026-11-23 16:46:04,704 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 3.43e-04
+2026-11-23 16:46:30,910 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 3.43e-04
+2026-11-23 16:46:56,943 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 3.43e-04
+2026-11-23 16:47:23,004 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 3.43e-04

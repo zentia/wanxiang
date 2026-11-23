@@ -1,0 +1,11 @@
+2026-11-23 14:39:09,604 autotrain.trainer.runner INFO step 1 | loss 9.0933 | val 9.0448 | lr 3.33e-05
+2026-11-23 14:39:42,114 autotrain.trainer.runner INFO step 50 | loss 6.5687 | val 6.7334 | lr 9.94e-04
+2026-11-23 14:40:15,479 autotrain.trainer.runner INFO step 100 | loss 6.1061 | val 6.3588 | lr 9.25e-04
+2026-11-23 14:40:48,448 autotrain.trainer.runner INFO step 150 | loss 6.4727 | val 6.2396 | lr 7.89e-04
+2026-11-23 14:41:21,193 autotrain.trainer.runner INFO step 200 | loss 6.0366 | val 6.1165 | lr 6.11e-04
+2026-11-23 14:41:53,886 autotrain.trainer.runner INFO step 250 | loss 6.2504 | val 6.0679 | lr 4.22e-04
+2026-11-23 14:42:26,675 autotrain.trainer.runner INFO step 300 | loss 5.8697 | val 5.9597 | lr 2.56e-04
+2026-11-23 14:42:59,347 autotrain.trainer.runner INFO step 350 | loss 5.7348 | val 5.9233 | lr 1.42e-04
+2026-11-23 14:43:32,132 autotrain.trainer.runner INFO step 400 | loss 5.9476 | val 5.8898 | lr 1.00e-04
+2026-11-23 14:43:32,385 autotrain.trainer.runner INFO training finished: {'status': 'DONE', 'steps': 400, 'final_val_loss': 5.889829754829407, 'tokens_seen': 13107200, 'elapsed_sec': 263.6214110851288, 'tokens_per_sec': 49719.78545311486, 'checkpoint': 'runs/lm-baseline/checkpoints/ckpt_step_400.pt'}
+{'status': 'DONE', 'steps': 400, 'final_val_loss': 5.889829754829407, 'tokens_seen': 13107200, 'elapsed_sec': 263.6214110851288, 'tokens_per_sec': 49719.78545311486, 'checkpoint': 'runs/lm-baseline/checkpoints/ckpt_step_400.pt'}

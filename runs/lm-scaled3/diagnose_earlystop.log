@@ -1,0 +1,27 @@
+[step 3600] frozen ppl=38.265  train val_loss=4.6677
+[step 3700] frozen ppl=37.669  train val_loss=4.6366
+[step 3800] frozen ppl=36.668  train val_loss=4.592
+[step 3900] frozen ppl=36.337  train val_loss=4.6653
+[step 4000] frozen ppl=35.763  train val_loss=4.6438
+[step 4100] frozen ppl=36.318  train val_loss=4.6138
+[step 4200] frozen ppl=36.347  train val_loss=4.606
+[step 4300] frozen ppl=34.695  train val_loss=4.5943
+[step 4350] frozen ppl=34.914  train val_loss=4.5991
+
+=== SUMMARY ===
+{
+  "question": "Was the step-4350 early stop premature on the frozen ruler?",
+  "eval_lm_hash": "2b70b6f6793432ab",
+  "early_stop": {
+    "triggered_at_step": 4350,
+    "train_val_best_step": 3750,
+    "patience_evaluations": 12,
+    "min_delta": 1e-05
+  },
+  "frozen_holdout_best_step": 4300,
+  "frozen_ppl_at_3800": 36.66756838175351,
+  "frozen_ppl_at_final": 34.9144963252204,
+  "frozen_ppl_drop_after_train_val_best": 1.7530720565331137,
+  "verdict": "PREMATURE: frozen ppl keeps dropping after the train-val best, so tail-val early stop fired too early"
+}
+[written] -> runs/lm-scaled3/reports/earlystop_diagnosis.json

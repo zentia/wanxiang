@@ -1,0 +1,52 @@
+{
+  "disjointness": {
+    "base_rows": 400,
+    "ext2_rows": 800,
+    "ext3_rows": 800,
+    "ext_rows": 800,
+    "overlapping_ids": 0
+  },
+  "eval_corpus": {
+    "corpus_id": "81bd7bb3646e57be",
+    "holdout_sha256": "65947b9599d9256130c574ea50426ffc23e23fe42b524ddbb7e7314fa4c2ec6b",
+    "note": "UNCHANGED — eval_lm_hash must stay 2b70b6f6793432ab",
+    "path": "runs/corpus/lm",
+    "tokenizer_sha256": "8ee357138775bba721c98f596564c719c5926cc108c11e8109cac02887d96188"
+  },
+  "experiment": "wanxiang-lm-scaled3",
+  "extension_source": {
+    "bytes": 11092009,
+    "name": "wiki_zh_ext3",
+    "pin": {
+      "api": "https://datasets-server.huggingface.co/rows",
+      "config": "20231101.zh",
+      "dataset": "wikimedia/wikipedia",
+      "n_rows": 800,
+      "offset": 2000,
+      "split": "train"
+    },
+    "rows": 800,
+    "sha256": "1bf009333d1950c951f54400ce5cc5bb94a89db6ceaf86deb0ba16532f7e38c2"
+  },
+  "method": "append-third-disjoint-wiki-block-to-train-only",
+  "tokenizer": {
+    "kind": "char",
+    "note": "frozen tokenizer reused verbatim; OOV -> <unk>",
+    "sha256": "8ee357138775bba721c98f596564c719c5926cc108c11e8109cac02887d96188",
+    "unk_count": 6067,
+    "unk_id": 1,
+    "unk_rate": 0.00150484255705665
+  },
+  "train_stream": {
+    "base_tokens": 3059577,
+    "bytes": 31219712,
+    "ext1_tokens": 4656004,
+    "ext2_tokens": 3862624,
+    "ext3_tokens": 4031651,
+    "path": "runs/lm-scaled3/train_tokens.bin",
+    "prefix_identical_to_prior": true,
+    "prior_tokens": 11578205,
+    "sha256": "4059568186faef66d1ade18ae6b544e006377d31dc6670abebf088954b1aa025",
+    "total_tokens": 15609856
+  }
+}

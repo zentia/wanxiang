@@ -1,0 +1,42 @@
+# Phone-sized smoke config (Android / aarch64 / CPU-only).
+#
+# The default wanxiang-smoke-4m.yaml targets a desktop CPU: seq_len 256,
+# 65536 tokens/step, 500 steps. On an ARM phone that is tens of minutes and
+# heats the SoC for no extra signal. This config keeps every M1/M1.5 code
+# path (checkpoint, resume, export, sealed A/B) but fits a phone:
+#   seq_len 64, 2048 tokens/step, ~1.6M params, fp32, 40 steps.
+# It is a NEW experiment with its own config_hash; it never mixes with
+# results produced by the desktop configs.
+experiment: wanxiang-android-tiny
+seed: 42
+
+data:
+  mix: mix_android_tiny
+  seq_len: 64
+  val_fraction: 0.02
+
+model:
+  layers: 2
+  dim: 128
+  heads: 4
+  vocab_size: 8192
+
+train:
+  global_batch_tokens: 2048
+  lr_peak: 3.0e-3
+  warmup_steps: 5
+  max_steps: 40
+  precision: fp32
+  ckpt_every_steps: 20
+  val_every_steps: 5
+  grad_clip: 1.0
+
+recover:
+  max_retries: 3
+  loss_spike_sigma: 3.0
+  spike_window: 10
+  early_stop_patience: 10
+
+eval:
+  harness_tasks: []
+  milestones: [0.5, 1.0]

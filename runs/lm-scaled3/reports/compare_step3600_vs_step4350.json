@@ -1,0 +1,12 @@
+{
+  "comparable": true,
+  "eval_lm_hash": "2b70b6f6793432ab",
+  "baseline_perplexity": 38.26536906857588,
+  "candidate_perplexity": 34.9144963252204,
+  "perplexity_delta": 3.350872743355481,
+  "baseline_cross_entropy": 3.644545285284648,
+  "candidate_cross_entropy": 3.5529021104520133,
+  "threshold": 0.0,
+  "verdict": "IMPROVED"
+}
+

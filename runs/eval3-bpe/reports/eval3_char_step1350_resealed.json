@@ -1,0 +1,67 @@
+{
+  "bundle_config_hash": "b36cd76970966c0bdabf462f67733f10389c5b1059e73cba17f9f3d3b967a406",
+  "bundle_step": 1350,
+  "chat_template_hash": "75aa259402df72852a4d4010abf3093b792c1f8e10ce9781eefef3e59675e024",
+  "checks": {
+    "control_consistent": true,
+    "quality_passed": false
+  },
+  "corpus_manifest_hash": "bd3a69c56a89533ac9ff3243fd23ec64fdceebdbd9773fc81aff4b3220c45978",
+  "device": "cpu",
+  "empty_reply_rate": 0.0,
+  "evalspec_hash": "d806a5e1a6778b47cf9c0e7505e148c9678f6c2cb54367424ede2ac2e9274fa2",
+  "examples": [
+    {
+      "composite": 0.0,
+      "question": "请解释成语《安危与共》的意思",
+      "reference": "形容关系密切，利害相连",
+      "reply": "安于危险和处境于困境，以免后也指他日有那样安宁的处境，然后还是由于困境，以免后再去过问这个老年，"
+    },
+    {
+      "composite": 0.0288,
+      "question": "成语《暗无天日》是什么意思",
+      "reference": "形容在反动势力统治下社会的黑暗",
+      "reply": "无天没有天地，无可天亮就可以回归于的境界，比喻见闻非常快乐的人，没有人，不知道怎么办好，不能留的"
+    },
+    {
+      "composite": 0.1263,
+      "question": "请说出《傲不可长》的含义",
+      "reference": "傲慢之心不可以滋长",
+      "reply": "形容人态度傲慢，能够不上进，方法不能上下来，不可私情，与人知道来有了解他的及时，对方只能顺从人的"
+    },
+    {
+      "composite": 0.0553,
+      "question": "请解释成语《白首相庄》的意思",
+      "reference": "指夫妇到老犹相敬爱",
+      "reply": "指前后相接的方法进行处理解决的趋向，白彻底的向前进的方向化发展的好处，也比喻顺着解决的局面或给人"
+    },
+    {
+      "composite": 0.0624,
+      "question": "成语《白兔赤乌》是什么意思",
+      "reference": "多借指时间",
+      "reply": "比喻无故地重要的东西或过去的事物必然趋向同时出现的人或事物随着世界进入一样，也指现在时代拿着一个"
+    }
+  ],
+  "format_version": "wanxiang-eval3-report-1",
+  "gen_tokens": 48,
+  "metrics": {
+    "char_f1": 0.0877747100469054,
+    "composite": 0.06757165636494762,
+    "edit_similarity": 0.045071903799704494,
+    "exact_match": 0.0,
+    "rouge_l": 0.07815797195414853
+  },
+  "negative_control": {
+    "char_f1": 0.05328137530236092,
+    "composite": 0.04071335595722675,
+    "edit_similarity": 0.02562112114524287,
+    "exact_match": 0.0,
+    "rouge_l": 0.047588605357446016
+  },
+  "note": "Word-level holdout: questions are unseen idioms excluded from pretrain+SFT. Objective character metrics only.",
+  "qa_count": 150,
+  "status": "PARTIAL",
+  "tokenizer_hash": "7454de15a2a009fef273e640084f5da7bf5f91b0506fbfadb0a06991274215fa",
+  "tokenizer_type": "char",
+  "tokenizer_vocab_size": 8192
+}

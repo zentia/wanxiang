@@ -1,0 +1,9 @@
+{
+  "holdout_count": 300,
+  "holdout_seed": 20261123,
+  "m2_corpus_id": "a02850c784672b19",
+  "m2_tokens": 2186397,
+  "sft_corpus_id": "1129ef1a474e95d7",
+  "sft_tokens": 1060937,
+  "tokenizer_hash": "7454de15a2a009fef273e640084f5da7bf5f91b0506fbfadb0a06991274215fa"
+}

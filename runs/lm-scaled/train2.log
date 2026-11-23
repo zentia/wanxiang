@@ -1,0 +1,4 @@
+2026-11-23 16:48:35,472 autotrain.trainer.runner INFO resumed from runs/lm-scaled/checkpoints/ckpt_step_500.pt at step 500
+2026-11-23 16:49:00,467 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 3.43e-04
+2026-11-23 16:49:26,798 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 3.43e-04
+2026-11-23 16:49:52,995 autotrain.trainer.runner WARNING rolled back to step 500, lr lowered to 3.43e-04

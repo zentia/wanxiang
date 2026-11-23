@@ -145,9 +145,9 @@ def make_handler(
                 "Chinese chat template, trained 100 extra steps on QA pairs. "
                 "Output is still not reliable prose.")
     elif tokenizer.supports_text:
-        note = ("M2 character tokenizer: token ids map to characters. The model is "
-                "a tiny prototype trained on real Chinese text, not an "
-                "instruction-tuned chat model; output is not fluent prose.")
+        note = ("Character tokenizer: token ids map to characters. This is a "
+                "general-purpose next-token LM, not an instruction-tuned chat "
+                "model; output is raw continuation, not a chat answer.")
     else:
         note = (
             "M1 has no tokenizer. token ids are uint16 integers, not text; "

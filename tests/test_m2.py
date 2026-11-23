@@ -181,7 +181,12 @@ def test_text_completions_work_but_chat_is_still_refused(tmp_path):
         doc = json.loads(body)
         assert isinstance(doc["choices"][0]["text"], str)
         assert len(doc["token_ids"]) == 6
-        assert "tiny" in doc["note"] or "prototype" in doc["note"]
+        # The service must honestly state this is not a chat model and that
+        # its output is raw continuation. Assert the semantics, not the exact
+        # wording: the note is stage-neutral and may mention no milestone name.
+        note = doc["note"].lower()
+        assert "not an instruction-tuned chat model" in note
+        assert "continuation" in note or "not fluent" in note
 
         # Token-id endpoint still works alongside the text endpoint.
         status, body = _request(port, "/v1/token-completions",

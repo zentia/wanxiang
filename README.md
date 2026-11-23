@@ -128,9 +128,10 @@ python -m autotrain.eval_lm compare \
 | M3 | Orchestrator + 一键流水线 | 待开始 |
 | M4 | 超参搜索（代理模型扫描 + μP 外推） | 待开始 |
 
-## 语料许可
+## 许可证
 
-训练与评测使用的中文维基百科快照遵循 **CC BY-SA 4.0**
-（https://creativecommons.org/licenses/by-sa/4.0/）。历史归档实验使用的
-公开成语数据来自 `chinese-xinhua`（MIT）。所有报告中的数值均为本机复现结果，
-不承诺跨设备 / 跨快照复现出相同数值。
+- **代码：MIT**，见 `LICENSE`。
+- **语料**：训练与评测使用的中文维基百科快照遵循 **CC BY-SA 4.0**
+  （https://creativecommons.org/licenses/by-sa/4.0/）；历史归档实验使用的
+  公开成语数据来自 `chinese-xinhua`（MIT）。语料许可不因代码开源而改变。
+- 所有报告中的数值均为本机复现结果，不承诺跨设备 / 跨快照复现出相同数值。

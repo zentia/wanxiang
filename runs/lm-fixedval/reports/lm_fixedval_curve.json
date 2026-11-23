@@ -1,0 +1,60 @@
+{
+  "actual_final_step": 4800,
+  "budget_max_steps": 4800,
+  "curve": [
+    {
+      "cross_entropy": 3.644545285284648,
+      "perplexity": 38.26536906857588,
+      "step": 3600,
+      "verdict_vs_step2400": "IMPROVED"
+    },
+    {
+      "cross_entropy": 3.5769173393496683,
+      "perplexity": 35.763125168776895,
+      "step": 4000,
+      "verdict_vs_step2400": "IMPROVED"
+    },
+    {
+      "cross_entropy": 3.530395363628478,
+      "perplexity": 34.13746165775973,
+      "step": 4800,
+      "verdict_vs_step2400": "IMPROVED"
+    }
+  ],
+  "eval_lm_hash": "2b70b6f6793432ab",
+  "experiment": "wanxiang-lm-fixedval",
+  "note": "val-sampling fix is measurement-only; scored prefix must reproduce ext3 bit-for-bit. min_delta/patience/model/seed unchanged (single-variable discipline). Only frozen holdout perplexity is a valid cross-run judge; training-internal val_loss is not.",
+  "plateau": {
+    "baseline_cross_entropy": 3.5769173393496683,
+    "baseline_perplexity": 35.763125168776895,
+    "candidate_cross_entropy": 3.530395363628478,
+    "candidate_perplexity": 34.13746165775973,
+    "comparable": true,
+    "eval_lm_hash": "2b70b6f6793432ab",
+    "perplexity_delta": 1.6256635110171658,
+    "threshold": 0.0,
+    "verdict": "IMPROVED"
+  },
+  "prefix_detail": [
+    {
+      "delta": 0.0,
+      "ext3_ppl": 38.26536906857588,
+      "fixedval_ppl": 38.26536906857588,
+      "identical": true,
+      "step": 3600
+    },
+    {
+      "delta": 0.0,
+      "ext3_ppl": 35.763125168776895,
+      "fixedval_ppl": 35.763125168776895,
+      "identical": true,
+      "step": 4000
+    }
+  ],
+  "prefix_identity_vs_ext3": true,
+  "reached_full_budget": true,
+  "reference": {
+    "perplexity": 56.61532657054769,
+    "step": 2400
+  }
+}

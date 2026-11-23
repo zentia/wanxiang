@@ -174,7 +174,7 @@ python runs/lm-baseline/score.py
    hash 不变；ppl **106.82 → 195.43**（↑83.0%，实为退化，比较器按协议
    报 `NO_CHANGE`）。在当前 char-level 困惑度语义下不进入主线。
 
-## 8. ext3 加长训练（完成，当前最佳）
+## 8. ext3 加长训练（完成）
 
 继续追加 `wiki_zh_ext3`（rows 2000..2799，800 篇），训练流
 11,578,205 → 15,609,856 token，以 ext2 流为字节前缀，四块文档 id 两两
@@ -203,14 +203,33 @@ step3600→4350 仍 `IMPROVED`（38.27→34.91），**未 plateau、未回归**�
 > 重叠、有效样本仅 4,100 token，噪声导致 step 4350 过早早停（模型未收敛，
 > 冻结困惑度同期仍在降）。已改为 16 个等距互不重叠窗口铺满 31 万 token
 > 尾部（约 76×）；`min_delta`/patience 本轮刻意不动以保持单变量归因。
-> `runs/lm-fixedval` 干净重训到 4800 步验证中，结果待回填。
+> `runs/lm-fixedval` 干净重训已跑满 4800 步（`DONE`，无早停）；冻结尺子上
+> step3600/4000 与 ext3 逐位一致、step4800 ppl **34.14**，主线最佳更新为该点。
+> 详见 `EARLY_STOP_REVIEW.md` 第 8 节。
 
-继续推进的优先级（更新）：数据已到 1561 万 token、步数已进边际递减区，
+继续推进的优先级（更新）：数据已到 1561 万 token、步数仍在改善但未 plateau，
 下一轮更值得动的是**数据多样性 / 更大模型 / 解码策略**，而不是把同一配方
-再拉长；early-stop 判据已按 `EARLY_STOP_REVIEW.md` 修复，正在
-`runs/lm-fixedval` 干净重训到 4800 步验证，不要直接调预算。
+再拉长；early-stop 判据已按 `EARLY_STOP_REVIEW.md` 修复并经干净重训验证，
+不要靠直接调预算来绕过判据。
 解码策略（采样 / top-k / repetition penalty）属推理自优化，可改善重复退化
 但不改变 perplexity。
 
 关键纪律不变：任何改动都用**同一语料、同一 holdout、同一 eval_lm_hash** 严格
 A/B，绝不用检索或记忆型问答冒充语言能力提升。线上推理服务仍未替换。
+
+## 9. fixedval 干净重训（完成，当前最佳）
+
+修复 val 采样后，用与 ext3 **字节级一致**的 config / train 流 / seed，从 step 0
+干净重训到 **step 4800，`DONE`，全程未触发 early stop**（详见
+`EARLY_STOP_REVIEW.md` 第 8 节）。
+
+| step | 冻结 holdout ppl | 说明 |
+|---:|---:|---|
+| 3600 | 38.2654 | 与 ext3 逐位一致 |
+| 4000 | 35.7631 | 与 ext3 逐位一致 |
+| **4800** | **34.1375** | `IMPROVED`，未 plateau |
+
+`step4000 → step4800` 降 1.63（CE 3.5769 → 3.5304），严格 A/B 判 `IMPROVED`。
+**当前最佳：`runs/lm-fixedval` step4800 / ppl 34.14 / CE 3.5304**
+（`eval_lm_hash=2b70b6f6793432ab`）。曲线与 plateau 检查见
+`runs/lm-fixedval/reports/lm_fixedval_curve.json`。

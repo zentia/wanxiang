@@ -1,0 +1,22 @@
+[discover] steps=[3600, 4000, 4800] final=4800 reached_full_budget=True
+[ref step2400] ppl=56.62
+[step3600] ppl=38.2654 ce=3.6445 -> IMPROVED
+[step4000] ppl=35.7631 ce=3.5769 -> IMPROVED
+[step4800] ppl=34.1375 ce=3.5304 -> IMPROVED
+[prefix] reproduces_ext3=True (2 checkpoints)
+  step3600: ext3=38.2654 fixed=38.2654 delta=+0.00e+00
+  step4000: ext3=35.7631 fixed=35.7631 delta=+0.00e+00
+[plateau step4000 -> step4800]
+{
+  "comparable": true,
+  "eval_lm_hash": "2b70b6f6793432ab",
+  "baseline_perplexity": 35.763125168776895,
+  "candidate_perplexity": 34.13746165775973,
+  "perplexity_delta": 1.6256635110171658,
+  "baseline_cross_entropy": 3.5769173393496683,
+  "candidate_cross_entropy": 3.530395363628478,
+  "threshold": 0.0,
+  "verdict": "IMPROVED"
+}
+
+[summary] -> runs/lm-fixedval/reports/lm_fixedval_curve.json

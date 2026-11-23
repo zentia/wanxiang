@@ -16,10 +16,11 @@
 > 扩语料长训见 `runs/lm-scaled/`（→ 106.8）与 `runs/lm-scaled2/`（→ 56.62）；
 > 三条质量路线（更多数据/步数、扩容量、同 hash BPE）见 `LM_QUALITY.md`。
 > **ext3 加长训练**见 `runs/lm-scaled3/`：预算 4800 步在 step4350 early stop，
-> 当前最佳 **step4350 / ppl 34.91**（同一 `eval_lm_hash=2b70b6f6793432ab`）。
+> ppl 34.91（同一 `eval_lm_hash=2b70b6f6793432ab`）。
 > **early-stop 判据复核**见 `EARLY_STOP_REVIEW.md`（step4350 属过早早停，
 > 根因是 val 采样窗口重叠、有效样本仅 4.1K token）；修复已实施（16 个分散
-> val 窗口），`runs/lm-fixedval` 为干净重训验证 run。总纪律见 `LM_BASELINE.md`。
+> val 窗口），并经 `runs/lm-fixedval` 干净重训验证：跑满 4800 步、无早停，
+> 当前最佳 **step4800 / ppl 34.14**。总纪律见 `LM_BASELINE.md`。
 >
 > **测量仪器分工**：`autotrain/eval/` 是合成受控实验（Markov + i.i.d. 负对照，
 > 验证"确实学到转移结构"）；`autotrain/eval_lm/` 是真实自然语言困惑度（维基

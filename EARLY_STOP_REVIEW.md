@@ -219,13 +219,13 @@ cd <repo-root>
 也不影响基于 train loss 的 spike 检测。因此：
 1. **训练轨迹必须与 ext3 逐位一致**：实测 step 1 的 train loss 两边都是
    `9.0933`（而 val loss 已从 `9.0639` 变为 `9.0380`，证明换的只是尺子）；
-   `score.py` 会断言 step3600/4000/4350 的冻结困惑度与 ext3 差 <1e-6。
+   `score.py` 断言 step3600/4000 的冻结困惑度与 ext3 差 <1e-6（4350 因不再
+   早停、无该 checkpoint，不参与校验）。
 2. **4800 尾部才是新证据**：`reached_full_budget`、是否仍触发 early stop、
-   以及 step4350→final 的冻结困惑度是否继续下降。
+   以及 step4000→final 的冻结困惑度是否继续下降。
 
-产物：`runs/lm-fixedval/{prepare.py,score.py,provenance.json,train.log}` 与
-`reports/lm_fixedval_curve.json`。结果回填前，第 0 节结论仍以
-`PREMATURE` 为准；本 run 是验证修复、不是刷新主线最佳。
+产物：`runs/lm-fixedval/{prepare.py,score.py,provenance.json,train.log,score.log}`
+与 `reports/lm_fixedval_curve.json`。**验证已完成，结果见第 8 节。**
 
 ### 7.4 复现命令
 
@@ -238,3 +238,41 @@ cd <repo-root>
   --out runs/lm-fixedval
 .venv/bin/python runs/lm-fixedval/score.py
 ```
+
+---
+
+## 8. 干净重训验证结果（2026-11-24，已回填）
+
+`runs/lm-fixedval` 用同一 config / train 流 / seed，从 step 0 训到 **step 4800，
+status `DONE`，全程没有触发 early stop**（`final_val_loss=3.8441`，耗时 3298.7s）。
+分散窗口下 val loss 从 step 1 的 `9.0380` 平滑降到 4800 的 `3.8441`，没有出现
+ext3 那种「best@3750 后震荡回升」。
+
+### 8.1 冻结尺子结果（同一 `eval_lm_hash=2b70b6f6793432ab`）
+
+| step | ext3 ppl | fixedval ppl | delta |
+|---:|---:|---:|---:|
+| 3600 | 38.2654 | 38.2654 | **0** |
+| 4000 | 35.7631 | 35.7631 | **0** |
+| 4350 | 34.9145 | —（未早停，无该 checkpoint） | — |
+| **4800** | —（被早停截断） | **34.1375** | 新推进 |
+
+- **前缀逐位一致**（3600/4000 delta=0）：证实修复是纯测量侧，训练轨迹
+  （权重 / 优化器 / scheduler / 游标）完全没被改动——这正是单变量实验要的归因。
+- 4350 没有 checkpoint 是因为该 run 不再早停，checkpoint 只在 100 的倍数
+  与最终步落盘；前缀校验因此落在 3600/4000 两点，已足够定论。
+- `step4000 → step4800` 严格 A/B 仍 `IMPROVED`（ppl 35.7631 → 34.1375，
+  降 1.63；CE 3.5769 → 3.5304），**未 plateau**。
+- 主线最佳更新为 **`runs/lm-fixedval` step4800 / ppl 34.14**（原 step4350/34.91）。
+
+### 8.2 结论
+
+1. 第 0 节 `PREMATURE` 判定成立，且**修复有效**：错误早停被解除，模型多跑
+   450 步，冻结困惑度从 34.91 继续降到 34.14。
+2. **修复方案 #3（相对 `min_delta` / 平滑）不需要实施**：采样面扩大 76× 后
+   val loss 已足够平滑，`patience=12` 未再被噪声耗尽。本轮只改采样语义，
+   归因干净，无需叠加阈值改动。
+3. 冻结 holdout 仍未参与训练内部早停；跨实验 val loss 不可比这条纪律不变。
+
+产物：`runs/lm-fixedval/{train.log,score.log}`、
+`runs/lm-fixedval/reports/lm_fixedval_curve.json` 与 4 份 compare 报告。

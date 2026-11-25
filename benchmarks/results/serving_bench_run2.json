@@ -1,0 +1,122 @@
+{
+  "levels": [
+    {
+      "aggregate_tok_per_sec": 99.74,
+      "concurrency": 1,
+      "e2e_max_ms": 89.7,
+      "e2e_p50_ms": 89.7,
+      "e2e_p95_ms": 89.7,
+      "e2e_p99_ms": 89.7,
+      "errors": [],
+      "ok": 1,
+      "requests": 1,
+      "total_tokens": 9,
+      "tpot_mean_ms": 6.5,
+      "ttft_mean_ms": 30.6,
+      "vram_after_mib": {
+        "free": 7792,
+        "used": 8188
+      },
+      "vram_before_mib": {
+        "free": 7792,
+        "used": 8188
+      },
+      "wall_sec": 0.09
+    },
+    {
+      "aggregate_tok_per_sec": 308.48,
+      "concurrency": 4,
+      "e2e_max_ms": 116.1,
+      "e2e_p50_ms": 116.0,
+      "e2e_p95_ms": 116.1,
+      "e2e_p99_ms": 116.1,
+      "errors": [],
+      "ok": 4,
+      "requests": 4,
+      "total_tokens": 36,
+      "tpot_mean_ms": 8.3,
+      "ttft_mean_ms": 32.9,
+      "vram_after_mib": {
+        "free": 7792,
+        "used": 8188
+      },
+      "vram_before_mib": {
+        "free": 7792,
+        "used": 8188
+      },
+      "wall_sec": 0.117
+    },
+    {
+      "aggregate_tok_per_sec": 525.64,
+      "concurrency": 8,
+      "e2e_max_ms": 136.1,
+      "e2e_p50_ms": 115.5,
+      "e2e_p95_ms": 136.1,
+      "e2e_p99_ms": 136.1,
+      "errors": [],
+      "ok": 8,
+      "requests": 8,
+      "total_tokens": 72,
+      "tpot_mean_ms": 11.1,
+      "ttft_mean_ms": 22.1,
+      "vram_after_mib": {
+        "free": 7792,
+        "used": 8188
+      },
+      "vram_before_mib": {
+        "free": 7792,
+        "used": 8188
+      },
+      "wall_sec": 0.137
+    },
+    {
+      "aggregate_tok_per_sec": 889.92,
+      "concurrency": 16,
+      "e2e_max_ms": 157.5,
+      "e2e_p50_ms": 155.3,
+      "e2e_p95_ms": 157.5,
+      "e2e_p99_ms": 157.5,
+      "errors": [],
+      "ok": 16,
+      "requests": 16,
+      "total_tokens": 144,
+      "tpot_mean_ms": 15.0,
+      "ttft_mean_ms": 20.3,
+      "vram_after_mib": {
+        "free": 7793,
+        "used": 8187
+      },
+      "vram_before_mib": {
+        "free": 7792,
+        "used": 8188
+      },
+      "wall_sec": 0.162
+    },
+    {
+      "aggregate_tok_per_sec": 858.74,
+      "concurrency": 32,
+      "e2e_max_ms": 324.7,
+      "e2e_p50_ms": 308.2,
+      "e2e_p95_ms": 320.4,
+      "e2e_p99_ms": 324.7,
+      "errors": [],
+      "ok": 32,
+      "requests": 32,
+      "total_tokens": 288,
+      "tpot_mean_ms": 14.8,
+      "ttft_mean_ms": 104.1,
+      "vram_after_mib": {
+        "free": 7793,
+        "used": 8187
+      },
+      "vram_before_mib": {
+        "free": 7793,
+        "used": 8187
+      },
+      "wall_sec": 0.335
+    }
+  ],
+  "max_tokens": 32,
+  "url": "http://127.0.0.1:8082/v1/chat/completions",
+  "warmup": 0
+}

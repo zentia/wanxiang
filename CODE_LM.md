@@ -425,7 +425,7 @@ token（空格、换行、`a`），把它们注入上下文反而强化重复模
 | 打分（SFT） | `python -m autotrain.code_corpus sft-score --corpus runs/code-sft` |
 | 检查匿名性 | `sft-verify` / `verify` 会拒绝 manifest 中的路径标记 |
 
-## 8. 大改：容量 + 语料（新尺子，进行中）
+## 8. 大改：容量 + 语料（新尺子，已完成）
 
 ### 8.1 换尺子 = 所有旧报告作废
 
@@ -504,3 +504,108 @@ greedy 样例仍是 `public void void void... override override...`；开解码�
 
 当前最佳产物：`runs/code-large-sft/bundle`（对话）/
 `runs/code-large/bundle_step8000`（补全）；推理时必须带解码控制参数（见 5.1）。
+
+## 9. 换起点：开源底座 + QLoRA（新家族，链路已跑通）
+
+前面 8 节证明的是「小模型 + next-token 自监督 + 本地源码」范式的边界：
+扩容到 98M / 512 MiB 后 greedy `looped` 仍是 100%。真正的生产路径是
+**拿一个已在大规模数据上预训练好的开源底座做领域适配**，本地源码正好
+用作微调语料。这是一条**全新且不可比**的路线。
+
+### 9.1 选型（含一处必须纠正的许可问题）
+
+| | 主 | 兜底 | 排除 |
+|---|---|---|---|
+| 型号 | `Qwen2.5-Coder-7B-Instruct` | `Qwen2.5-Coder-1.5B-Instruct` | ~~3B~~ |
+| 许可 | Apache 2.0 | Apache 2.0 | **Qwen RESEARCH LICENSE，仅非商用** |
+
+> **纠正**：HF API 显示 3B 的 `cardData.license=other`，其 LICENSE 第 2 条
+> 明确 "FOR NON-COMMERCIAL PURPOSES ONLY"、商用需单独申请。专有工程
+> 不能用。7B / 1.5B 才是 `apache-2.0`。**选底座必须逐型号核许可**，
+> 不能按系列名推断。
+
+底座放在 `runs/qwen-base/{1.5b,7b}/`（不进 git）。两者 tokenizer 实测
+完全相同（vocab 151643、eos 151645、chat template 文本与 id 一致），
+所以同一份适配数据可共用；尺子仍按型号分开，不跨型号比较。
+
+### 9.2 环境与模块（已完成）
+
+`.venv-cuda` 装 `transformers 5.24.1 / peft 0.22.0 / bitsandbytes 0.50.2 /
+accelerate 1.16.0 / datasets 5.2.0`。实测 **bitsandbytes 4-bit NF4 在
+Windows + cu130 上可正常加载并前向**，1.5B 显存仅 ~2 GB、free 14 GB。
+
+新增 [autotrain/qwen_sft](<autotrain/qwen_sft>)：
+
+| 模块 | 作用 |
+|---|---|
+| `data.py` | 用**底座 tokenizer** 从脱敏源 jsonl 重建指令样本；文档级冻结 train/holdout、block 对齐、answer 去重、answer-side labels(-100)、seal/verify、路径泄漏检查 |
+| `train.py` | 4-bit NF4 QLoRA：r=16/alpha=32、7 个 target module、bf16、gradient checkpointing、paged 8-bit Adam、batch1×accum8 |
+| `ruler.py` | 重建冻结生成质量尺子，复用 `eval_gen.sequence_metrics` / `compare` 纯函数 |
+| `__main__.py` | CLI：`build` / `verify` / `train` / `score` / `compare` |
+
+**不能复用** `runs/code-sft-v2/*.bin`：那是 16384 词表自定义 BPE 编码的，
+与底座 15 万词表完全不兼容。数据 `runs/qwen-sft/`
+（`corpus_id=5868c5114c16c0f4`，20,000 train / 19,183 holdout，
+文档顺序确定性 shuffle 避免截断偏差）。
+
+### 9.3 已验证的链路线
+
+- 4-bit 加载 + 前向：`logits (1,5,151936)`，无 OOM
+- QLoRA smoke（1.5B / 5 步 / 32 样本）：loss 2.90 → 1.51、可训练参数
+  18.5M、adapter 保存成功、2.25 s/步
+- 7B 4-bit 生成同样跑通，显存无压力
+- 数据 `verify`、尺子 `score` / `compare` 均通过
+
+### 9.4 基线（新尺子，与前 8 节所有报告 INCOMPARABLE）
+
+| 尺子 / 模型 | looped | distinct_1 | repeat_3gram | max_repeat_run |
+|---|---|---|---|---|
+| `gen_hash=99086acf0b70cd80` 1.5B 裸模型 greedy | 50.0% | 46.3% | 28.6% | 1.125 |
+| 同上 + 解码控制 | **0%** | **78.9%** | 0% | 1.125 |
+| `gen_hash=b7052f66cc3ac3a1` 7B 裸模型 greedy | 62.5% | 48.3% | 27.6% | 1.125 |
+| 同上 + 解码控制 | **0%** | **80.9%** | 0% | 1.0 |
+
+**最重要的观察**：裸底座的 `looped` 只有 50–63%，而从零训到 98M / step-9000
+的模型始终是 100%。两把尺子不可比，但量级差异直接印证了「换起点」是对的。
+
+smoke adapter（5 步 LoRA）在尺子上判 `REGRESSED`（0 改善 / 4 退化），
+幅度极小且符合预期 —— 它只是链路验证，不是训练结论。
+
+### 9.5 100 步 QLoRA 的真实结论（两把尺子缺一不可）
+
+在 `runs/qwen-sft/` 上训 100 步（241 秒，loss 1.502，LoRA 18.5M 参数），
+在同一把尺子上做 A/B。
+
+**生成尺子 `gen_hash=99086acf0b70cd80`（管重复）**
+
+| | 裸底座 | +100 步 LoRA |
+|---|---|---|
+| greedy OFF `looped` | 50.0% | 56.3% |
+| greedy OFF `distinct_1` | 46.3% | 48.1% |
+| `eval_gen` verdict (OFF) | — | `REGRESSED`（1 改善 / 4 退化） |
+| 解码控制 ON `looped` | 0% | 0% |
+| `eval_gen` verdict (ON) | — | `IMPROVED`（3/0，幅度极小） |
+
+**适配尺子 `adapt_hash=ddaa2fe4db96dc98`（管领域适配）**
+
+| | 裸底座 | +100 步 LoRA |
+|---|---|---|
+| answer CE | 1.7715 | **1.3231** |
+| answer top-1 | 68.4% | **73.0%** |
+| verdict | — | **`IMPROVED`** |
+
+**结论**：100 步 QLoRA 让模型在本地代码分布上的 answer CE 降 25%、
+top-1 升 4.7pp —— 领域适配**确实学到了东西**；但它没有改善「重复退化」
+（OFF 甚至轻微变差）。这两把尺子测的是不同问题：**只用 `eval_gen` 会误判
+「微调没用」，只用 `adapt` 会漏掉「生成仍会循环」**。
+
+另一个量级参照：裸底座 answer top-1 就有 68.4%，而从零训到 98M /
+step-9000 的模型在它自己的 sft 尺子上只有 38.5%（跨尺子不可比，但
+印证换起点的价值）。
+
+### 9.6 还没做的
+
+7B 上的正式 QLoRA 训练（只验证了 4-bit 生成可跑）、更多步数与数据、
+GGUF/Ollama 或 llama.cpp 本地部署（本机均未安装）、以及「指令遵循 /
+代码正确性」这类尺子 —— 当前两把尺子都**不测「写得对不对」**。
+**换底座后旧家族所有报告作废**，只能用本节 `gen_hash` / `adapt_hash` 做 A/B。

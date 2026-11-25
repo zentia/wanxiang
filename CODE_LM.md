@@ -603,9 +603,40 @@ top-1 升 4.7pp —— 领域适配**确实学到了东西**；但它没有改�
 step-9000 的模型在它自己的 sft 尺子上只有 38.5%（跨尺子不可比，但
 印证换起点的价值）。
 
-### 9.6 还没做的
+### 9.6 7B 正式训练（400 步，已完成）
 
-7B 上的正式 QLoRA 训练（只验证了 4-bit 生成可跑）、更多步数与数据、
-GGUF/Ollama 或 llama.cpp 本地部署（本机均未安装）、以及「指令遵循 /
-代码正确性」这类尺子 —— 当前两把尺子都**不测「写得对不对」**。
-**换底座后旧家族所有报告作废**，只能用本节 `gen_hash` / `adapt_hash` 做 A/B。
+7B smoke 5 步（3.8 s/步、LoRA 40.4M 参数、显存约 11 GB）；正式训练
+**400 步 / 19.3 分钟**，`train_loss 1.2264`（1.5B 的 100 步为 1.502）。
+显存最紧时 free 仅 2.0 GB —— 桌面应用占用是这条路径的主要风险。
+
+| 尺子 | 裸 7B | +400 步 | verdict |
+|---|---|---|---|
+| `adapt_hash=41edda68bba4f634` answer CE | 1.6649 | **1.1264** | `IMPROVED` |
+| 同上 answer top-1 | 70.0% | **75.9%** | +5.9pp |
+| `gen_hash=b7052f66cc3ac3a1` `looped` (OFF) | 62.5% | 68.8% | `REGRESSED`(0/5) |
+| 同上 `looped` (+解码控制) | 0% | 0% | `IMPROVED`(2/1，边际) |
+
+适配收益（CE −32%、top-1 +5.9pp）**优于 1.5B 的 100 步**（−25%、+4.7pp），
+说明更大底座 + 更多步数确实更有效；生成重复的结论不变。
+
+**定性样例（最有说服力的一条）**。同一 prompt
+`complete the code below (cs): public void Update() { if (m_Texture == null)`：
+
+| | 输出 |
+|---|---|
+| 裸 7B greedy | `"Certainly! It looks like you're working on a method to update some texture in your C# code. ..."`（**在聊天解释，没有补全代码**） |
+| +400 步 adapter | `'        return;\n\n    m_Texture.Apply();\n}\n'`（**直接续写代码，格式正确**） |
+| adapter + 解码控制 | 同上 |
+
+这正是 QLoRA 该做的事：把通用 Instruct 模型的行为调成「按项目格式直接
+续写代码」，**不是**灌入新知识。当前两把尺子都不测这个 —— `adapt` 测
+分布、`ruler` 测重复，都漏掉了「格式 / 指令遵循」这个最直观的收益。
+这也解释了生成尺子为何判 `REGRESSED`：输出从啰嗦解释变成简洁代码，
+短序列的 distinct 统计自然会变。
+
+### 9.7 还没做的
+
+GGUF / Ollama 或 llama.cpp 本地部署（本机均未安装）、「指令遵循 /
+代码正确性」的客观尺子（补齐上面这个缺口）、更多步数与 7B 全量数据、
+以及多轮对话能力。**换底座后旧家族所有报告作废**，只能用本节
+`gen_hash` / `adapt_hash` 做 A/B。

@@ -734,10 +734,61 @@ OpenAI 形状端点 `/health` 与 `/v1/chat/completions`，`threading.Lock`
 只看任一把都会误判。另外 `syntax` 的绝对值提醒：**生成的代码大多
 还不能编译** —— 微调改善的是行为与结构，不是可靠性。
 
-### 9.11 还没做的
+### 9.11 GGUF / llama.cpp / Ollama 部署（已完成）
 
-GGUF / Ollama / llama.cpp 部署（本机未装；当前服务用 transformers，
-常驻显存约 5 GB）、更多步数与 7B 全量数据、多轮对话能力、
-语法尺子的包装改进（减少假阳性）与真正的编译通过率。
-**换底座后旧家族所有报告作废**，只能用本节四把尺子
+**GGUF 只存完整权重，不存 LoRA delta**，所以第一步必须把 adapter 合并回
+底座：`merge_and_unload()` → bf16 完整模型 `runs/qwen-merged/`
+（14.20 GB / 72 秒，全程 CPU，191 GB RAM 充裕）。
+
+工具链全部本地、不进 git：llama.cpp nightly `b12359` 的 Windows CPU x64
+预编译二进制（`runs/llamacpp/`）、v1.0.0 源码里的
+`convert_hf_to_gguf.py` + `conversion/`（`runs/qwen-gguf/src/`）、
+`pip install gguf sentencepiece`。
+
+> 两个踩过的坑：① 转换器先试 sentencepiece，找不到 `tokenizer.model`
+> 才 fallback 到 GPT-2 BPE —— 必须装 `sentencepiece` 且把 `vocab.json` /
+> `merges.txt` 补进 merged 目录，否则分别报 `ModuleNotFoundError` / 缺 BPE 词表；
+> ② v1.0.0 release 只有源码，二进制在 nightly tag（由 `nightly-tag.txt`
+> 解析得到 `b12359`）。
+
+| 产物 | 大小 |
+|---|---|
+| `runs/qwen-gguf/qwen-7b-f16.gguf` | 14.19 GB |
+| `runs/qwen-gguf/qwen-7b-Q4_K_M.gguf` | **4.36 GB**（4.91 BPW） |
+
+```powershell
+# 合并（一次性）
+.\.venv-cuda\Scripts\python.exe autotrain/qwen_sft/merge.py
+Copy-Item runs/qwen-base/7b/vocab.json,runs/qwen-base/7b/merges.txt runs/qwen-merged/
+# 转 f16 GGUF 再量化
+.\.venv-cuda\Scripts\python.exe runs/qwen-gguf/src/llama.cpp-1.0.0/convert_hf_to_gguf.py `
+    runs/qwen-merged --outfile runs/qwen-gguf/qwen-7b-f16.gguf --outtype f16
+.\runs\llamacpp\llama-quantize.exe runs/qwen-gguf/qwen-7b-f16.gguf `
+    runs/qwen-gguf/qwen-7b-Q4_K_M.gguf Q4_K_M
+# 起服务（纯 CPU，脱离 Python）
+.\runs\llamacpp\llama-server.exe -m runs/qwen-gguf/qwen-7b-Q4_K_M.gguf `
+    --host 127.0.0.1 --port 8081 -c 4096 --n-gpu-layers 0
+```
+
+**冒烟**：`/health` OK；POST `/v1/chat/completions` 输出
+`return;\n\n    m_Texture.Apply();\n}`（`finish_reason=stop`），
+与 9.9 的 transformers 服务**逐字一致** —— GGUF 转换未丢失 adapter 效果。
+
+| | transformers 4-bit 服务 (9.9) | llama.cpp Q4_K_M |
+|---|---|---|
+| 资源 | GPU ~5 GB 常驻 | CPU RAM ~4.5 GB，无需 GPU |
+| 启动 | 加载 14 GB 权重再 4-bit 量化 | 直接 mmap 4.36 GB |
+| 依赖 | Python + torch + peft | 单个 exe + DLL |
+| 速度 | GPU 快 | CPU 较慢（可换 CUDA 版加 `--n-gpu-layers`） |
+
+**Ollama**：本机未安装（安装程序需用户交互），但仓库根的
+[Modelfile](<Modelfile>) 已备好 Qwen ChatML 模板 + `repeat_penalty 1.2` +
+「只续写代码、不解释」的 system prompt。装好后从仓库根一条命令导入：
+`ollama create wanxiang-code -f Modelfile`。
+
+### 9.12 还没做的
+
+更多步数与 7B 全量数据、多轮对话能力、语法尺子的包装改进（减少假阳性）
+与真正的编译通过率；可选地换 llama.cpp CUDA 版做 GPU offload、以及
+实际安装 Ollama。**换底座后旧家族所有报告作废**，只能用本节四把尺子
 （`gen_hash` / `adapt_hash` / `quality_hash` / `syntax_hash`）做 A/B。

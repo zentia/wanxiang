@@ -1,0 +1,22 @@
+# Ollama model definition for the merged + quantized Wanxiang code adapter.
+# Run from the repository root (GGUF lives under runs/, never committed):
+#   ollama create wanxiang-code -f Modelfile
+#   ollama run wanxiang-code
+# Ollama is NOT installed on this machine yet; see CODE_LM.md 9.11.
+
+FROM ./runs/qwen-gguf/qwen-7b-Q4_K_M.gguf
+
+PARAMETER temperature 0
+PARAMETER repeat_penalty 1.2
+PARAMETER repeat_last_n 64
+PARAMETER num_ctx 4096
+PARAMETER stop "<|im_end|>"
+
+SYSTEM "You are a code completion assistant. Continue the user's code directly. Do not explain, do not add prose."
+
+TEMPLATE """{{ if .System }}<|im_start|>system
+{{ .System }}<|im_end|>
+{{ end }}{{ range .Messages }}<|im_start|>{{ .Role }}
+{{ .Content }}<|im_end|>
+{{ end }}<|im_start|>assistant
+"""

@@ -634,9 +634,51 @@ step-9000 的模型在它自己的 sft 尺子上只有 38.5%（跨尺子不可�
 这也解释了生成尺子为何判 `REGRESSED`：输出从啰嗦解释变成简洁代码，
 短序列的 distinct 统计自然会变。
 
-### 9.7 还没做的
+### 9.7 第三把尺子：格式 / 正确性（已补齐）
 
-GGUF / Ollama 或 llama.cpp 本地部署（本机均未安装）、「指令遵循 /
-代码正确性」的客观尺子（补齐上面这个缺口）、更多步数与 7B 全量数据、
-以及多轮对话能力。**换底座后旧家族所有报告作废**，只能用本节
-`gen_hash` / `adapt_hash` 做 A/B。
+9.6 的定性样例暴露了测量缺口：两把尺子都不测「是否直接输出代码」。
+[quality.py](<autotrain/qwen_sft/quality.py>) 在冻结 SFT holdout 的 32 个
+prompt 上，用**纯客观、无 judge** 的指标补齐：
+
+- **格式**：`explanation_leak_rate`（固定可审计的解释性短语表，前 80 字符
+  子串判定）、`code_char_ratio`、`code_char_ratio_gap`（与参考续写的结构差）、
+  `indented_line_ratio`
+- **正确性代理**：`raw_char_f1`（保留标点/空白）+ 复用
+  [eval2/metrics.py](<autotrain/eval2/metrics.py>) 的 `score_pair`
+  （`char_f1` / `rouge_l` / `edit_similarity` / `exact_match` / `composite`）
+
+`quality_hash=d181f748049159bf` 绑定数据 `corpus_id`、底座名、样本数、
+生成长度、短语表；解码控制仍是被测变量，不进 hash。
+
+| 指标 | 裸 7B | +400 步 adapter |
+|---|---|---|
+| **`explanation_leak_rate`** | **65.6%** | **0%** |
+| `code_char_ratio` | 7.98% | **15.8%** |
+| `code_char_ratio_gap` | 6.45% | **4.2%** |
+| **`indented_line_ratio`** | 34.4% | **100%** |
+| `rouge_l` / `edit_similarity` | 38.9% / 25.1% | **43.5% / 31.2%** |
+| `raw_char_f1` | 58.0% | 60.3% |
+| `char_f1` / `composite` | 62.1% / 0.4154 | 54.5% / 0.4109（退化） |
+
+**verdict `IMPROVED`（7 改善 / 2 退化）**。之前定性看到的「裸模型在聊天
+解释」被量化：2/3 的样本在解释而不补代码，微调后完全消失。退化两项也
+解释得通 —— `char_f1` 的 `normalize()` 丢掉标点，解释性英文里恰好含与
+参考重叠的标识符；`composite` 几乎持平（−0.004）说明 **QLoRA 没灌入新
+知识**，符合「LoRA 调风格而非灌知识」的预期。
+
+**解码控制的 tradeoff**：adapter 开/关控制在这把尺子上是 `NO_CHANGE`
+（`explanation_leak` 仍 0、`code_char_ratio` 略升，`rouge_l` /
+`edit_similarity` 略降，幅度都小）；而生成尺子上 `looped` 68.8% → 0。
+即**解码控制基本免费：压掉循环而不伤格式/正确性，推理时默认开**。
+
+**三把尺子的分工（缺一不可）**：`adapt` 管分布拟合、`ruler` 管重复、
+`quality` 管格式/指令遵循。只看任一把都会误判 —— 只看 `ruler` 会得出
+「微调变差」，只看 `quality` 会漏掉「生成仍会循环」。
+
+### 9.8 还没做的
+
+GGUF / Ollama 或 llama.cpp 本地部署（本机均未安装）、更多步数与 7B
+全量数据、多轮对话能力，以及**真正的代码正确性**（编译 / 语法合法性：
+本机无 C#/C++ 解析器，`quality` 目前只是字符相似度代理）。
+**换底座后旧家族所有报告作废**，只能用本节三把尺子
+（`gen_hash` / `adapt_hash` / `quality_hash`）做 A/B。

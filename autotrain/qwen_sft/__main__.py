@@ -20,6 +20,8 @@ from .adapt import compare as adapt_compare, score as adapt_score
 from .data import build, verify
 from .quality import compare as quality_compare, score as quality_score
 from .ruler import compare as gen_compare, score as gen_score
+from .serve import run as serve_run
+from .syntax import compare as syntax_compare, score as syntax_score
 from .train import run
 
 
@@ -157,6 +159,53 @@ def cmd_quality_compare(args: argparse.Namespace) -> None:
     print(json.dumps(quality_compare(before, after), ensure_ascii=False, indent=2))
 
 
+def cmd_syntax_score(args: argparse.Namespace) -> None:
+    decode = {
+        "repetition_penalty": args.repetition_penalty,
+        "no_repeat_ngram_size": args.no_repeat_ngram,
+    }
+    report = syntax_score(
+        args.base, args.data,
+        adapter_dir=args.adapter,
+        decode=decode,
+        n=args.n,
+        gen_len=args.gen_len,
+        load_in_4bit=not args.full_precision,
+        checker=args.checker,
+    )
+    out = Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(
+        json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    print(json.dumps({
+        "out": str(out.resolve()),
+        "syntax_hash": report["syntax_hash"],
+        "base": report["base"],
+        "adapter": report["adapter"],
+        "metrics": {k: round(v, 4) for k, v in report["metrics"].items()},
+    }, ensure_ascii=False, indent=2))
+
+
+def cmd_syntax_compare(args: argparse.Namespace) -> None:
+    before = json.loads(Path(args.baseline).read_text(encoding="utf-8"))
+    after = json.loads(Path(args.candidate).read_text(encoding="utf-8"))
+    print(json.dumps(syntax_compare(before, after), ensure_ascii=False, indent=2))
+
+
+def cmd_serve(args: argparse.Namespace) -> None:
+    serve_run(
+        args.base,
+        adapter_dir=args.adapter,
+        host=args.host,
+        port=args.port,
+        max_new_tokens=args.max_tokens,
+        api_key=args.api_key,
+        load_in_4bit=not args.full_precision,
+    )
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="QLoRA adaptation of a Qwen code base")
     sub = p.add_subparsers(dest="command", required=True)
@@ -233,6 +282,35 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--baseline", required=True)
     sp.add_argument("--candidate", required=True)
     sp.set_defaults(func=cmd_quality_compare)
+
+    sp = sub.add_parser("syntax-score", help="Roslyn syntax ruler")
+    sp.add_argument("--base", required=True)
+    sp.add_argument("--data", default="runs/qwen-sft")
+    sp.add_argument("--adapter", default=None)
+    sp.add_argument("--out", required=True)
+    sp.add_argument("--n", type=int, default=32)
+    sp.add_argument("--gen-len", type=int, default=64)
+    sp.add_argument("--repetition-penalty", type=float, default=1.0)
+    sp.add_argument("--no-repeat-ngram", type=int, default=0)
+    sp.add_argument("--full-precision", action="store_true")
+    sp.add_argument("--checker", default=None,
+                    help="path to SyntaxCheck.exe; auto-built if missing")
+    sp.set_defaults(func=cmd_syntax_score)
+
+    sp = sub.add_parser("syntax-compare", help="same-ruler syntax A/B")
+    sp.add_argument("--baseline", required=True)
+    sp.add_argument("--candidate", required=True)
+    sp.set_defaults(func=cmd_syntax_compare)
+
+    sp = sub.add_parser("serve", help="local OpenAI-shaped HTTP server")
+    sp.add_argument("--base", required=True)
+    sp.add_argument("--adapter", default=None)
+    sp.add_argument("--host", default="127.0.0.1")
+    sp.add_argument("--port", type=int, default=8080)
+    sp.add_argument("--max-tokens", type=int, default=256)
+    sp.add_argument("--api-key", default=None)
+    sp.add_argument("--full-precision", action="store_true")
+    sp.set_defaults(func=cmd_serve)
     return p
 
 

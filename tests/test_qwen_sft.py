@@ -16,6 +16,14 @@ from autotrain.qwen_sft.quality import (
     raw_char_f1,
 )
 from autotrain.qwen_sft.ruler import build_spec
+from autotrain.qwen_sft.serve import DEFAULT_DECODE, HttpError, _payload
+from autotrain.qwen_sft.syntax import (
+    balance,
+    build_spec as syntax_build_spec,
+    compare as syntax_compare,
+    structure_metrics,
+    unterminated_quotes,
+)
 
 
 def _report(adapt_hash: str, ce: float, top1: float) -> dict:
@@ -130,3 +138,67 @@ def test_quality_spec_is_deterministic_and_base_sensitive():
     c = quality_build_spec("sha", "corpus", "1.5b", n=32, gen_len=64)
     assert a == b
     assert a["quality_hash"] != c["quality_hash"]
+
+
+# ---------------------------------------------------------------------------
+# Syntax ruler / local server
+# ---------------------------------------------------------------------------
+
+
+def test_balance_and_quote_helpers():
+    assert balance("if (x) { y(); }", "{", "}") == 0
+    assert balance("if (x) {", "{", "}") == 1
+    assert balance("a[0]", "[", "]") == 0
+    assert unterminated_quotes('Console.WriteLine("hi");') == 0.0
+    assert unterminated_quotes('Console.WriteLine("hi);') == 1.0
+
+
+def test_structure_metrics_gap_is_zero_for_identical_text():
+    m = structure_metrics("    if (x) {\n        return;\n    }",
+                          "    if (x) {\n        return;\n    }")
+    assert m["brace_balance_gap"] == 0.0
+    assert m["paren_balance_gap"] == 0.0
+    assert m["unterminated_quote_rate"] == 0.0
+
+
+def test_syntax_compare_rejects_different_rulers():
+    base = {"syntax_hash": "a", "metrics": {
+        "syntax_error_free_rate": 0.5, "avg_syntax_errors": 1.0,
+        "brace_balance_gap": 0.2, "paren_balance_gap": 0.1,
+        "bracket_balance_gap": 0.1, "unterminated_quote_rate": 0.1,
+    }}
+    other = dict(base, syntax_hash="b")
+    assert syntax_compare(base, other)["verdict"] == "INCOMPARABLE"
+
+
+def test_syntax_compare_verdicts():
+    base = {"syntax_hash": "s", "metrics": {
+        "syntax_error_free_rate": 0.5, "avg_syntax_errors": 2.0,
+        "brace_balance_gap": 0.2, "paren_balance_gap": 0.1,
+        "bracket_balance_gap": 0.1, "unterminated_quote_rate": 0.1,
+    }}
+    better = {"syntax_hash": "s", "metrics": {
+        "syntax_error_free_rate": 0.9, "avg_syntax_errors": 0.5,
+        "brace_balance_gap": 0.0, "paren_balance_gap": 0.0,
+        "bracket_balance_gap": 0.0, "unterminated_quote_rate": 0.0,
+    }}
+    assert syntax_compare(base, better)["verdict"] == "IMPROVED"
+    assert syntax_compare(better, base)["verdict"] == "REGRESSED"
+
+
+def test_syntax_spec_is_deterministic_and_base_sensitive():
+    a = syntax_build_spec("sha", "corpus", "7b", n=32, gen_len=64)
+    b = syntax_build_spec("sha", "corpus", "7b", n=32, gen_len=64)
+    c = syntax_build_spec("sha", "corpus", "1.5b", n=32, gen_len=64)
+    assert a == b
+    assert a["syntax_hash"] != c["syntax_hash"]
+    assert a["parser"].startswith("Roslyn")
+
+
+def test_server_defaults_and_error_payload():
+    # Decode controls must be ON by default (measured as free in 9.7).
+    assert DEFAULT_DECODE["repetition_penalty"] > 1.0
+    assert DEFAULT_DECODE["no_repeat_ngram_size"] > 0
+    payload = _payload(HttpError(400, "bad"))
+    assert payload["error"]["message"] == "bad"
+    assert payload["error"]["code"] == 400

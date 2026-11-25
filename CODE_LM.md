@@ -671,14 +671,73 @@ prompt 上，用**纯客观、无 judge** 的指标补齐：
 `edit_similarity` 略降，幅度都小）；而生成尺子上 `looped` 68.8% → 0。
 即**解码控制基本免费：压掉循环而不伤格式/正确性，推理时默认开**。
 
-**三把尺子的分工（缺一不可）**：`adapt` 管分布拟合、`ruler` 管重复、
-`quality` 管格式/指令遵循。只看任一把都会误判 —— 只看 `ruler` 会得出
-「微调变差」，只看 `quality` 会漏掉「生成仍会循环」。
+**前三把尺子的分工（缺一不可，完整对照见 9.10）**：`adapt` 管分布拟合、
+`ruler` 管重复、`quality` 管格式/指令遵循。只看任一把都会误判 ——
+只看 `ruler` 会得出「微调变差」，只看 `quality` 会漏掉「生成仍会循环」。
 
-### 9.8 还没做的
+### 9.8 第四把尺子：真实语法（Roslyn，已补齐）
 
-GGUF / Ollama 或 llama.cpp 本地部署（本机均未安装）、更多步数与 7B
-全量数据、多轮对话能力，以及**真正的代码正确性**（编译 / 语法合法性：
-本机无 C#/C++ 解析器，`quality` 目前只是字符相似度代理）。
-**换底座后旧家族所有报告作废**，只能用本节三把尺子
-（`gen_hash` / `adapt_hash` / `quality_hash`）做 A/B。
+本机有 `dotnet SDK 8.0.204` 自带 Roslyn，所以这里不用字符相似度代理，
+而是**真的解析语法树**：[roslyn/](<autotrain/qwen_sft/roslyn>) 是一个最小
+C# 工具（源码入库、产物 `runs/syntaxcheck/bin/` 忽略），用
+`CSharpSyntaxTree.ParseText` 把生成片段包成
+`class __W { void __M() { <fragment> } }`，统计 error diagnostics。
+Python 侧 [syntax.py](<autotrain/qwen_sft/syntax.py>) 一次批量调用，
+另外对全语言算括号/引号结构配平与参考的差距。
+
+冒烟验证：正确 C# 片段 0 errors、英文解释 7 errors、语法错片段 1 error。
+
+`syntax_hash=022004108e510b87`（32 个冻结 prompt，其中 17 个 C#）：
+
+| 指标 | 裸 7B | +400 步 adapter |
+|---|---|---|
+| `syntax_error_free_rate` | **0%** | **17.6%** |
+| `avg_syntax_errors` | **17.0** | **8.53** |
+| `brace_balance_gap` | 1.75 | **0.625** |
+| `paren_balance_gap` | 0.156 | 0.094 |
+
+`verdict: IMPROVED`（4 改善 / 2 退化）—— 语法错误减半、括号结构更接近参考。
+
+> **诚实边界**：绝对值仍很差，只有 17.6% 的片段无语法错误。且包装规则
+> 会把片段自带的 `}` 判成多余括号（续写本就该闭合方法），这是**包装
+> 限制造成的假阳性**，不是纯模型问题。所以这把尺子的**相对 A/B 有效**
+> （同包装、同 prompt 集），但不能读作「17.6% 能编译」。
+
+### 9.9 本地推理服务（已跑通）
+
+[serve.py](<autotrain/qwen_sft/serve.py>)：标准库 `http.server` +
+已装的 transformers/peft/torch，**零新依赖**。4-bit 7B + adapter，
+OpenAI 形状端点 `/health` 与 `/v1/chat/completions`，`threading.Lock`
+串行化生成（HF `generate` 非线程安全）。**默认开解码控制**
+（`repetition_penalty=1.2, no_repeat_ngram_size=3`，依据 9.7 的「免费」结论），
+请求可逐项覆盖；支持 `WANXIANG_API_KEY`。
+
+```powershell
+.\.venv-cuda\Scripts\python.exe -m autotrain.qwen_sft serve \
+    --base runs/qwen-base/7b --adapter runs/qwen-sft/run7b/adapter \
+    --host 127.0.0.1 --port 8080
+```
+
+冒烟实测：`/health` 返回 `7b+adapter / 4bit-nf4`；POST 返回
+`return;\n\n    m_Texture.Apply();\n}`（`finish_reason=stop`）；
+非法 `messages` 返回 400。
+
+### 9.10 四把尺子的分工（缺一不可）
+
+| 尺子 | 管什么 | 7B +400 步的结论 |
+|---|---|---|
+| `adapt` | 分布拟合 | `IMPROVED`（CE −32%） |
+| `ruler` | 重复退化 | OFF `REGRESSED`、ON `IMPROVED` |
+| `quality` | 格式 / 指令遵循 | **`IMPROVED`（最大收益）** |
+| `syntax` | 真实语法 | `IMPROVED`（错误减半，绝对值仍差） |
+
+只看任一把都会误判。另外 `syntax` 的绝对值提醒：**生成的代码大多
+还不能编译** —— 微调改善的是行为与结构，不是可靠性。
+
+### 9.11 还没做的
+
+GGUF / Ollama / llama.cpp 部署（本机未装；当前服务用 transformers，
+常驻显存约 5 GB）、更多步数与 7B 全量数据、多轮对话能力、
+语法尺子的包装改进（减少假阳性）与真正的编译通过率。
+**换底座后旧家族所有报告作废**，只能用本节四把尺子
+（`gen_hash` / `adapt_hash` / `quality_hash` / `syntax_hash`）做 A/B。

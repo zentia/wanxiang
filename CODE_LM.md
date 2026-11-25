@@ -786,9 +786,41 @@ Copy-Item runs/qwen-base/7b/vocab.json,runs/qwen-base/7b/merges.txt runs/qwen-me
 「只续写代码、不解释」的 system prompt。装好后从仓库根一条命令导入：
 `ollama create wanxiang-code -f Modelfile`。
 
-### 9.12 还没做的
+### 9.12 llama.cpp CUDA 版 GPU offload（已完成）
+
+**选型**：本机驱动 617.42 / CUDA UMD 13.4、torch 为 cu130。nightly `b12359`
+提供 cuda-12.4 与 cuda-13.5 两种 Windows 构建；选 **cuda-12.4**（驱动向后
+兼容 12.x，无需升级驱动；13.5 要求更高驱动）。本机只有 torch 自带的
+`cudart64_13.dll`，所以必须一并下载
+`cudart-llama-bin-win-cuda-12.4-x64.zip` 提供 `cudart64_12.dll` /
+`cublas64_12.dll`。二进制与 cudart 都在 `runs/llamacpp-cuda/`（不进 git）。
+
+```powershell
+.\runs\llamacpp-cuda\llama-server.exe -m runs/qwen-gguf/qwen-7b-Q4_K_M.gguf `
+    --host 127.0.0.1 --port 8082 -c 4096 --n-gpu-layers 99
+```
+
+CUDA 初始化日志确认 `Device 0: NVIDIA GeForce RTX 5080, compute capability
+12.0`；加载模型后显存 used 3.5 GB → 7.95 GB（+4.5 GB），offload 生效。
+
+> **唯一坑：首次请求 37 秒**。CUDA 12.4 不原生支持 sm_120，首次运行要做
+> PTX JIT 编译（日志：prompt eval 24.4 s / 49 tok、eval 12.6 s / 10 tok）。
+> 编译结果复用后，第二个请求起稳态 **0.07 s / 10 tok ≈ 147 tok/s**（三次
+> 实测 91 / 150 / 147）。生产部署应预热一次再对外服务。
+
+同一 Q4_K_M GGUF 的 `llama-bench -p 128 -n 32 -r 2` 对比：
+
+| | CPU (`-ngl 0`) | CUDA (`-ngl 99`) | 倍数 |
+|---|---|---|---|
+| pp128（prompt eval） | 290.19 t/s | **6755.11 t/s** | **23×** |
+| tg32（token 生成） | 9.26 t/s | **169.64 t/s** | **18×** |
+
+冒烟输出与 CPU 版、9.9 的 transformers 服务**逐字一致**
+（`return; m_Texture.Apply(); }`）—— offload 只改速度，不改结果。
+
+### 9.13 还没做的
 
 更多步数与 7B 全量数据、多轮对话能力、语法尺子的包装改进（减少假阳性）
-与真正的编译通过率；可选地换 llama.cpp CUDA 版做 GPU offload、以及
-实际安装 Ollama。**换底座后旧家族所有报告作废**，只能用本节四把尺子
-（`gen_hash` / `adapt_hash` / `quality_hash` / `syntax_hash`）做 A/B。
+与真正的编译通过率；实际安装 Ollama；可选的 cuda-13.5 构建（原生 sm_120、
+免 JIT，但需升级驱动）。**换底座后旧家族所有报告作废**，只能用本节四把
+尺子（`gen_hash` / `adapt_hash` / `quality_hash` / `syntax_hash`）做 A/B。

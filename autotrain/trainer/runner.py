@@ -77,6 +77,45 @@ class WarmupCosineScheduler:
         self.step_num = state["step_num"]
 
 
+# ---------------------------------------------------------------------------
+# Exposure-bias mitigation (scheduled-sampling-style input perturbation).
+# ---------------------------------------------------------------------------
+
+
+def ss_probability(
+    step: int, *, max_prob: float, ramp_steps: int, start_step: int
+) -> float:
+    """Linear ramp of the perturbation probability from 0 to ``max_prob``."""
+    if max_prob <= 0.0:
+        return 0.0
+    elapsed = max(0, int(step) - int(start_step))
+    return float(max_prob) * min(1.0, elapsed / max(1, int(ramp_steps)))
+
+
+def prediction_aware_perturb(
+    x: torch.Tensor,
+    logits: torch.Tensor,
+    prob: float,
+    generator: torch.Generator,
+) -> torch.Tensor:
+    """Replace input tokens with the model's own predictions, shifted by one.
+
+    Position ``t`` becomes ``argmax(logits[t-1])`` -- the token the model would
+    have emitted given the prefix up to ``t-1``. Targets are NOT changed, so the
+    model must recover the true continuation from a context it may have produced
+    itself (including a loopy one). Position 0 is never replaced (no history).
+    Deterministic given ``generator``. Pure function: unit-testable on CPU.
+    """
+    if prob <= 0.0:
+        return x
+    pred = logits.argmax(dim=-1)
+    repl = x.clone()
+    repl[:, 1:] = pred[:, :-1]
+    mask = torch.rand(x.shape, generator=generator, device=x.device) < prob
+    mask[:, 0] = False
+    return torch.where(mask, repl, x).to(x.dtype)
+
+
 class TrainerRunner:
     def __init__(
         self,
@@ -87,10 +126,25 @@ class TrainerRunner:
         device: str | None = None,
         label_file: str | Path | None = None,
         lr_peak_override: float | None = None,
+        ss_max_prob: float = 0.0,
+        ss_ramp_steps: int = 200,
+        ss_start_step: int = 0,
+        ss_seed: int = 0,
     ):
         cfg.validate()
         self.cfg = cfg
         self.lr_peak_override = lr_peak_override
+        if not 0.0 <= ss_max_prob <= 1.0:
+            raise ValueError("ss_max_prob must be in [0, 1]")
+        if ss_ramp_steps < 1:
+            raise ValueError("ss_ramp_steps must be >= 1")
+        # Deliberately NOT part of cfg: config_hash must stay identical so a
+        # pretrained checkpoint can be legally resumed. Training scripts record
+        # these values explicitly instead.
+        self.ss_max_prob = float(ss_max_prob)
+        self.ss_ramp_steps = int(ss_ramp_steps)
+        self.ss_start_step = int(ss_start_step)
+        self.ss_seed = int(ss_seed)
         self.token_file = Path(token_file)
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -165,14 +219,31 @@ class TrainerRunner:
         return sum(losses) / len(losses)
 
     def _train_step(self) -> float:
-        """One optimizer step (grad_accum micro-batches). Returns loss."""
+        """One optimizer step (grad_accum micro-batches). Returns loss.
+
+        When ``ss_max_prob > 0``, inputs are perturbed with the model's own
+        predictions before the loss pass (targets stay real). This is the
+        exposure-bias intervention; at the default it is a strict no-op.
+        """
         self.optimizer.zero_grad(set_to_none=True)
         total_loss = 0.0
+        prob = ss_probability(
+            self.step, max_prob=self.ss_max_prob,
+            ramp_steps=self.ss_ramp_steps, start_step=self.ss_start_step,
+        )
+        gen: torch.Generator | None = None
+        if prob > 0.0:
+            gen = torch.Generator(device=self.device)
+            gen.manual_seed(self.ss_seed + self.step)
         for _ in range(self.grad_accum):
             x, y, self.data_cursor = self.dataset.get_train_batch(
                 self.data_cursor, self.micro_batch, self.cfg.data.seq_len
             )
             x, y = x.to(self.device), y.to(self.device)
+            if prob > 0.0 and gen is not None:
+                with torch.no_grad():
+                    logits0, _ = self.model(x)
+                x = prediction_aware_perturb(x, logits0, prob, gen)
             with torch.autocast(device_type=self.device, dtype=self.autocast_dtype, enabled=self.cfg.train.precision == "bf16"):
                 _, loss = self.model(x, y)
             (loss / self.grad_accum).backward()

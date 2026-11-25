@@ -9,6 +9,7 @@ dist/
 # Virtual envs
 .venv/
 .venv-android/
+.venv-cuda/
 venv/
 
 # pytest

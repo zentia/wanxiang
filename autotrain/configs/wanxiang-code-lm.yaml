@@ -1,0 +1,42 @@
+# Code-LM pretraining on the frozen LOCAL source corpus (runs/code-corpus).
+#
+# Only experiment / data.mix / data.seq_len differ from the wiki LM baseline;
+# optimiser and recovery hyperparameters are reused verbatim. seq_len 512 is
+# needed for code (a 128-token window cannot hold even one function).
+#
+# NOTE: config_hash includes data.mix / seq_len / model.*, so this is a NEW
+# experiment. It cannot legally resume the wiki step-4800 checkpoint. Start
+# from step 0. max_steps alone is a budget knob excluded from the hash.
+experiment: wanxiang-code-lm
+seed: 42
+
+data:
+  mix: local_code_corpus_v1
+  seq_len: 512
+  val_fraction: 0.02
+
+model:
+  layers: 4
+  dim: 256
+  heads: 4
+  vocab_size: 8192
+
+train:
+  global_batch_tokens: 32768
+  lr_peak: 0.001
+  warmup_steps: 30
+  max_steps: 4800
+  precision: fp32
+  ckpt_every_steps: 100
+  val_every_steps: 50
+  grad_clip: 1.0
+
+recover:
+  max_retries: 3
+  loss_spike_sigma: 10.0
+  spike_window: 50
+  early_stop_patience: 12
+
+eval:
+  harness_tasks: []
+  milestones: [0.5, 1.0]

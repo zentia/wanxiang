@@ -1,0 +1,42 @@
+# Large code-LM: 12L/768d/12h (~98M params) on a 512 MiB local source corpus.
+#
+# BRAND-NEW experiment. config_hash differs from wanxiang-code-lm, so this
+# CANNOT legally resume any previous checkpoint -- start from step 0.
+# The corpus is rebuilt from scratch (512 MiB, vocab 16384), therefore
+# corpus_id / eval_lm_hash / gen_hash / sft_hash ALL change. Every historical
+# report is INCOMPARABLE with this family; only within-family A/B is valid.
+experiment: wanxiang-code-large
+seed: 42
+
+data:
+  mix: local_code_corpus_v2_512m
+  seq_len: 512
+  val_fraction: 0.02
+
+model:
+  layers: 12
+  dim: 768
+  heads: 12
+  vocab_size: 16384
+
+train:
+  global_batch_tokens: 16384
+  lr_peak: 0.001
+  warmup_steps: 100
+  max_steps: 8000
+  precision: bf16
+  ckpt_every_steps: 100
+  val_every_steps: 50
+  grad_clip: 1.0
+
+recover:
+  max_retries: 3
+  # The 3-sigma detector false-positives on a stable loss and can deadlock
+  # (CODE_LM.md 4.0). Disabled for this run.
+  loss_spike_sigma: 1000000000.0
+  spike_window: 50
+  early_stop_patience: 24
+
+eval:
+  harness_tasks: []
+  milestones: [0.5, 1.0]

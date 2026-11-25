@@ -47,6 +47,11 @@ class GenerationConfig:
     seed: int = 0
     eos_token_id: int | None = None
     stop_token_ids: tuple[int, ...] = ()
+    # Structural decoding controls. All default to OFF so existing behaviour
+    # and every historical report stay byte-identical.
+    repetition_penalty: float = 1.0        # >1 divides logits of seen tokens
+    no_repeat_ngram_size: int = 0          # >0 bans tokens completing a seen n-gram
+    frequency_penalty: float = 0.0         # extra penalty per prior occurrence
 
     def validate(self) -> None:
         if self.max_new_tokens < 1:
@@ -59,6 +64,14 @@ class GenerationConfig:
             raise ValueError("top_k must be >= 0")
         if not 0 < self.top_p <= 1:
             raise ValueError("top_p must be in (0, 1]")
+        if self.repetition_penalty < 1.0:
+            raise ValueError("repetition_penalty must be >= 1.0")
+        if self.no_repeat_ngram_size < 0:
+            raise ValueError("no_repeat_ngram_size must be >= 0")
+        if self.frequency_penalty < 0:
+            raise ValueError("frequency_penalty must be >= 0")
+        if self.no_repeat_ngram_size == 1:
+            raise ValueError("no_repeat_ngram_size=1 would ban all tokens")
 
 
 @dataclass
@@ -86,8 +99,65 @@ class GenerationResult:
         }
 
 
-def _sample_next(logits: torch.Tensor, cfg: GenerationConfig, generator: torch.Generator) -> int:
+def _apply_repetition_controls(
+    logits: torch.Tensor, cfg: GenerationConfig, context_ids: list[int]
+) -> torch.Tensor:
+    """Suppress loops before decoding, on the logits (so sampling benefits too).
+
+    Three orthogonal, deterministic controls:
+
+    * ``repetition_penalty`` (GPT-2 style): already-seen tokens have their
+      logit divided by the penalty (or multiplied when negative).
+    * ``frequency_penalty``: adds ``penalty * (count - 1)`` to the divisor,
+      so a token repeated N times is pushed down progressively harder.
+    * ``no_repeat_ngram_size``: bans any token that would complete an n-gram
+      already present in the context (hard constraint, not a soft bias).
+
+    All are no-ops at their defaults, keeping historical greedy behaviour
+    byte-identical.
+    """
+    if (cfg.repetition_penalty == 1.0 and cfg.frequency_penalty == 0.0
+            and cfg.no_repeat_ngram_size == 0):
+        return logits
+    out = logits.clone()
+    vocab = out.numel()
+
+    if cfg.repetition_penalty != 1.0 or cfg.frequency_penalty > 0.0:
+        counts: dict[int, int] = {}
+        for t in context_ids:
+            counts[t] = counts.get(t, 0) + 1
+        for tok, n in counts.items():
+            if not 0 <= tok < vocab:
+                continue
+            divisor = cfg.repetition_penalty + cfg.frequency_penalty * (n - 1)
+            if divisor <= 0:
+                continue
+            if out[tok] > 0:
+                out[tok] = out[tok] / divisor
+            else:
+                out[tok] = out[tok] * divisor
+
+    n = cfg.no_repeat_ngram_size
+    if n > 1 and len(context_ids) >= n - 1:
+        prefix = tuple(context_ids[-(n - 1):])
+        banned: set[int] = set()
+        for j in range(len(context_ids) - n + 1):
+            if tuple(context_ids[j:j + n - 1]) == prefix:
+                banned.add(context_ids[j + n - 1])
+        for tok in banned:
+            if 0 <= tok < vocab:
+                out[tok] = float("-inf")
+    return out
+
+
+def _sample_next(
+    logits: torch.Tensor,
+    cfg: GenerationConfig,
+    generator: torch.Generator,
+    context_ids: list[int] | None = None,
+) -> int:
     """Greedy by default; temperature + top-k + top-p when sampling."""
+    logits = _apply_repetition_controls(logits, cfg, context_ids or [])
     if not cfg.do_sample:
         return int(logits.argmax().item())
 
@@ -219,7 +289,7 @@ class InferenceEngine:
             next_logits = logits[0, -1]
 
             for i in range(budget):
-                token = _sample_next(next_logits, cfg, generator)
+                token = _sample_next(next_logits, cfg, generator, ids + generated)
                 generated.append(token)
                 if on_token is not None:
                     on_token(token)

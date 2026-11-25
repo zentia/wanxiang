@@ -66,6 +66,9 @@ def cmd_generate(args: argparse.Namespace) -> None:
         top_p=args.top_p,
         seed=args.seed,
         stop_token_ids=tuple(args.stop_token_ids or ()),
+        repetition_penalty=args.repetition_penalty,
+        no_repeat_ngram_size=args.no_repeat_ngram_size,
+        frequency_penalty=args.frequency_penalty,
     )
     result = engine.generate(prompt_ids, cfg)
     payload = {"model": engine.model_id(), **result.as_dict()}
@@ -159,6 +162,13 @@ def build_parser() -> argparse.ArgumentParser:
     sp_gen.add_argument("--top-p", type=float, default=1.0)
     sp_gen.add_argument("--seed", type=int, default=0)
     sp_gen.add_argument("--stop-token-ids", type=int, nargs="*", default=[])
+    sp_gen.add_argument("--repetition-penalty", type=float, default=1.0,
+                        help="divide logits of already-seen tokens (1.0 = off)")
+    sp_gen.add_argument("--no-repeat-ngram", type=int, default=0,
+                        dest="no_repeat_ngram_size",
+                        help="ban tokens that would repeat an n-gram (0 = off)")
+    sp_gen.add_argument("--frequency-penalty", type=float, default=0.0,
+                        help="additional penalty per prior occurrence")
     sp_gen.add_argument("--json", action="store_true")
     sp_gen.set_defaults(func=cmd_generate)
 

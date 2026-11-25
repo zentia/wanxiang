@@ -105,6 +105,9 @@ def build_config(body: dict[str, Any], engine: InferenceEngine) -> tuple[Generat
             seed=_int("seed", 0),
             eos_token_id=eos,
             stop_token_ids=tuple(stops),
+            repetition_penalty=_float("repetition_penalty", 1.0),
+            no_repeat_ngram_size=_int("no_repeat_ngram_size", 0),
+            frequency_penalty=_float("frequency_penalty", 0.0),
         )
         cfg.validate()
     except HttpError:

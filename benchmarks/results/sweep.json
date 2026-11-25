@@ -1,0 +1,163 @@
+{
+  "concurrency": 8,
+  "configs": [
+    {
+      "aggregate_tok_per_sec": 429.54,
+      "concurrency": 8,
+      "ctx": 2048,
+      "ctx_per_slot": 512,
+      "e2e_max_ms": 166.2,
+      "e2e_p50_ms": 164.1,
+      "e2e_p95_ms": 166.2,
+      "e2e_p99_ms": 166.2,
+      "errors": [],
+      "ok": 8,
+      "requests": 8,
+      "slots": 4,
+      "total_tokens": 72,
+      "tpot_mean_ms": 7.8,
+      "ttft_mean_ms": 54.4,
+      "vram_after_mib": {
+        "free": 8207,
+        "used": 7773
+      },
+      "vram_before_mib": {
+        "free": 8207,
+        "used": 7773
+      },
+      "wall_sec": 0.168
+    },
+    {
+      "aggregate_tok_per_sec": 581.95,
+      "concurrency": 8,
+      "ctx": 4096,
+      "ctx_per_slot": 512,
+      "e2e_max_ms": 120.2,
+      "e2e_p50_ms": 110.6,
+      "e2e_p95_ms": 120.2,
+      "e2e_p99_ms": 120.2,
+      "errors": [],
+      "ok": 8,
+      "requests": 8,
+      "slots": 8,
+      "total_tokens": 72,
+      "tpot_mean_ms": 10.1,
+      "ttft_mean_ms": 21.8,
+      "vram_after_mib": {
+        "free": 8113,
+        "used": 7867
+      },
+      "vram_before_mib": {
+        "free": 8113,
+        "used": 7867
+      },
+      "wall_sec": 0.124
+    },
+    {
+      "aggregate_tok_per_sec": 569.54,
+      "concurrency": 8,
+      "ctx": 8192,
+      "ctx_per_slot": 512,
+      "e2e_max_ms": 124.4,
+      "e2e_p50_ms": 107.1,
+      "e2e_p95_ms": 124.4,
+      "e2e_p99_ms": 124.4,
+      "errors": [],
+      "ok": 8,
+      "requests": 8,
+      "slots": 16,
+      "total_tokens": 72,
+      "tpot_mean_ms": 10.0,
+      "ttft_mean_ms": 19.7,
+      "vram_after_mib": {
+        "free": 7870,
+        "used": 8110
+      },
+      "vram_before_mib": {
+        "free": 7870,
+        "used": 8110
+      },
+      "wall_sec": 0.126
+    },
+    {
+      "aggregate_tok_per_sec": 578.01,
+      "concurrency": 8,
+      "ctx": 16384,
+      "ctx_per_slot": 2048,
+      "e2e_max_ms": 122.0,
+      "e2e_p50_ms": 105.8,
+      "e2e_p95_ms": 122.0,
+      "e2e_p99_ms": 122.0,
+      "errors": [],
+      "ok": 8,
+      "requests": 8,
+      "slots": 8,
+      "total_tokens": 72,
+      "tpot_mean_ms": 9.7,
+      "ttft_mean_ms": 20.4,
+      "vram_after_mib": {
+        "free": 7463,
+        "used": 8517
+      },
+      "vram_before_mib": {
+        "free": 7463,
+        "used": 8517
+      },
+      "wall_sec": 0.125
+    },
+    {
+      "aggregate_tok_per_sec": 698.44,
+      "concurrency": 8,
+      "ctx": 16384,
+      "ctx_per_slot": 1024,
+      "e2e_max_ms": 101.0,
+      "e2e_p50_ms": 100.8,
+      "e2e_p95_ms": 101.0,
+      "e2e_p99_ms": 101.0,
+      "errors": [],
+      "ok": 8,
+      "requests": 8,
+      "slots": 16,
+      "total_tokens": 72,
+      "tpot_mean_ms": 9.3,
+      "ttft_mean_ms": 16.8,
+      "vram_after_mib": {
+        "free": 7537,
+        "used": 8443
+      },
+      "vram_before_mib": {
+        "free": 7537,
+        "used": 8443
+      },
+      "wall_sec": 0.103
+    },
+    {
+      "aggregate_tok_per_sec": 554.23,
+      "concurrency": 8,
+      "ctx": 8192,
+      "ctx_per_slot": 256,
+      "e2e_max_ms": 127.5,
+      "e2e_p50_ms": 109.9,
+      "e2e_p95_ms": 127.5,
+      "e2e_p99_ms": 127.5,
+      "errors": [],
+      "ok": 8,
+      "requests": 8,
+      "slots": 32,
+      "total_tokens": 72,
+      "tpot_mean_ms": 10.3,
+      "ttft_mean_ms": 20.1,
+      "vram_after_mib": {
+        "free": 7991,
+        "used": 7989
+      },
+      "vram_before_mib": {
+        "free": 7991,
+        "used": 7989
+      },
+      "wall_sec": 0.13
+    }
+  ],
+  "max_tokens": 32,
+  "model": "runs/qwen-gguf/qwen-7b-Q4_K_M.gguf"
+}

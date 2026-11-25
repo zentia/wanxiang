@@ -1,0 +1,11 @@
+{
+  "bench": "llama-bench -ngl 99 -p 128 -n 32 -r 2",
+  "build": "b12359 (CUDA 12.4)",
+  "gpu": "RTX 5080 16GB, compute capability 12.0",
+  "tiers": [
+    {"name": "F16", "file": "qwen-7b-f16.gguf", "gib": 14.19, "bpw": 16.0, "pp128_tps": 1292.59, "tg32_tps": 61.74},
+    {"name": "Q8_0", "file": "qwen-7b-Q8_0.gguf", "gib": 7.54, "bpw": 8.5, "pp128_tps": 6437.38, "tg32_tps": 110.29},
+    {"name": "Q4_K_M", "file": "qwen-7b-Q4_K_M.gguf", "gib": 4.36, "bpw": 4.91, "pp128_tps": 6780.74, "tg32_tps": 172.75}
+  ],
+  "note": "F16 was verified fully offloaded to CUDA (Device 0 present in log), so its lower throughput is not a CPU fallback."
+}

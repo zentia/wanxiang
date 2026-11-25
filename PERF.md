@@ -133,6 +133,112 @@ parallel-slot gain.
 ## 8. What this report does NOT claim
 
 TTFT/TPOT here are end-to-end over loopback HTTP with SSE parsing and Python
-thread scheduling; they are **not** kernel-level timings. No nsys/ncu
-profiling, no vLLM continuous-batching comparison, no power/thermal control.
-Those are the next measurement layers.
+thread scheduling; they are **not** kernel-level timings. See §11 for the
+environment limits and what the missing measurement layers would measure.
+
+---
+
+# P1: Serving Parameter Sweep
+
+## 9. Slot count × context sweep
+
+[benchmarks/sweep.py](<benchmarks/sweep.py>) restarts the server once per
+`(parallel slots, total context)` configuration, applies a **two-layer
+prewarm** (single request + a batch at target concurrency, to absorb both the
+PTX JIT and the batch-variant cold path from §4.2), then runs a fixed load of
+`c=8`, 32 tokens. Raw data: [sweep.json](<benchmarks/results/sweep.json>).
+
+| slots `-np` | ctx `-c` | ctx/slot | TTFT ms | TPOT ms | p99 ms | agg tok/s | VRAM MiB | ok |
+|---|---|---|---|---|---|---|---|---|
+| 4 | 2048 | 512 | **54.4** | 7.8 | **166.2** | 429.5 | 7773 | 8/8 |
+| 8 | 4096 | 512 | 21.8 | 10.1 | 120.2 | 582.0 | 7867 | 8/8 |
+| 16 | 8192 | 512 | 19.7 | 10.0 | 124.4 | 569.5 | 8110 | 8/8 |
+| 8 | 16384 | 2048 | 20.4 | 9.7 | 122.0 | 578.0 | 8517 | 8/8 |
+| 16 | 16384 | 1024 | **16.8** | 9.3 | **101.0** | **698.4** | 8443 | 8/8 |
+| 32 | 8192 | 256 | 20.1 | 10.3 | 127.5 | 554.2 | 7989 | 8/8 |
+
+Zero errors everywhere. VRAM sampling has ~±100 MiB noise between restarts
+(the `16/16384` and `8/16384` rows are within that band).
+
+### 9.1 Three findings
+
+**① TTFT is the earliest queueing signal.** With `slots=4` and `c=8`, half the
+requests wait: TTFT 54.4 ms and p99 166.2 ms. At every configuration with
+`slots ≥ concurrency`, TTFT settles at **16.8–21.8 ms**. This is the same knee
+as §4.1 (`c=32` vs 16 slots pushed TTFT to 104.1 ms): **slot count is the
+capacity limit, and TTFT degrades before throughput does.**
+
+**② Context length, not traffic or slot count, sets the memory budget.**
+Going `ctx 2048 → 16384` moves VRAM 7773 → ~8450 MiB (**+~680 MiB**), while
+holding ctx fixed and varying slots 4 → 32 changes VRAM by <150 MiB (sampling
+noise). The KV cache is a **preallocated pool sized by total ctx**, exactly
+the engine-side resource-pool model. Budget `-c`, not `-np`, for memory.
+
+**③ Extra slots past the target concurrency do not buy throughput.** With
+`c=8` fixed, throughput goes 429.5 → 582.0 once slots reach 8, then stays in
+a **550–698 tok/s plateau** with no monotonic gain from 16 or 32 slots.
+Over-provisioning `-np` only enlarges the KV-cache budget and scheduling
+overhead. Configure slots to the expected concurrency, not to the maximum.
+
+Best measured configuration for this workload: `-np 16 -c 16384`
+(698.4 tok/s, TTFT 16.8 ms, p99 101.0 ms) — but the gain over
+`-np 8 -c 4096` (582.0) is modest, so the practical rule is "slots ≈ peak
+concurrency, ctx ≈ longest request", not "max both".
+
+## 10. Quantization triangle
+
+`llama-bench -ngl 99 -p 128 -n 32 -r 2`, same model at three quant tiers.
+Raw: [quant_tiers.json](<benchmarks/results/quant_tiers.json>).
+
+| tier | size | BPW | pp128 t/s | tg32 t/s |
+|---|---|---|---|---|
+| F16 | 14.19 GiB | 16.00 | **1292.6** | **61.7** |
+| Q8_0 | 7.54 GiB | 8.50 | 6437.4 | 110.3 |
+| Q4_K_M | 4.36 GiB | 4.91 | **6780.7** | **172.8** |
+
+**F16 is the slowest tier despite being "highest precision"** — and it was
+verified fully offloaded to CUDA (`Device 0` in the bench log), so this is not
+a CPU fallback.
+
+- Decode ratio Q4/F16 ≈ **2.8×**, close to the weight-bandwidth ratio
+  16 / 4.91 ≈ **3.26×** → token generation is **memory-bandwidth bound**,
+  the same regime as a texture/asset-bound pass in an engine.
+- Prompt-eval ratio ≈ **5.2×** exceeds the bandwidth ratio, so there is an
+  additional kernel / compute-path effect (quantized GEMM vs unquantized).
+  Not diagnosed here — this is exactly what `ncu` profiling would settle.
+
+**Conclusion**: on a 16 GB card, quantization is not a quality compromise but
+a **performance and capacity requirement** — F16 alone eats 14.19 GiB and
+squeezes the KV-cache budget. Q4_K_M is both the smallest and the fastest.
+
+## 11. P1 items not executed (environment limits, stated honestly)
+
+| Item | Status | Why |
+|---|---|---|
+| vLLM continuous-batching comparison | **not run** | vLLM has no native Windows build. WSL2 GPU passthrough works (`nvidia-smi` sees the 5080), but the distro ships Python 3.14 (unsupported by torch/vLLM), has no pip, and would need a full Python 3.12 + CUDA + vLLM reinstall. Cost/benefit does not justify it here; do it on a Linux host. |
+| Nsight Systems / Compute profiling | **not run** | `nsys` / `ncu` are not installed. All TTFT/TPOT numbers here are loopback HTTP end-to-end (including SSE parsing and Python thread scheduling), not kernel-level timings. |
+| Power / thermal / clock control | not run | No controlled measurement setup. |
+
+**What the missing layers would measure** (be able to explain these in an
+interview even without having run them):
+- **Paged attention** (vLLM): KV cache split into fixed-size blocks and
+  allocated on demand, vs llama.cpp's preallocated per-slot pool (§4.3). The
+  comparison to run is VRAM utilisation and the OOM boundary at high
+  concurrency with ragged request lengths — plus prefix caching.
+- **Continuous batching**: throughput when requests have unequal lengths and
+  finish at different times; static batching wastes the tail. Our §9 data
+  already shows the slot-saturation knee, which is the same failure mode from
+  the other side.
+- **ncu**: confirm the bandwidth-bound decode claim of §10 and find which
+  kernels dominate pp vs tg.
+
+## 12. Reproduce the P1 layers
+
+```powershell
+# parameter sweep (auto restarts the server per config)
+.\.venv\Scripts\python.exe -m benchmarks.sweep --concurrency 8 --max-tokens 32 `
+    --out benchmarks/results/sweep.json
+# quantization tiers
+.\runs\llamacpp-cuda\llama-bench.exe -m runs/qwen-gguf/qwen-7b-Q8_0.gguf `
+    -ngl 99 -p 128 -n 32 -r 2
+```

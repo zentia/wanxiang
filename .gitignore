@@ -15,6 +15,10 @@ venv/
 # pytest
 .pytest_cache/
 
+# dotnet build intermediates (roslyn syntax checker sources live in-tree)
+**/obj/
+**/bin/
+
 # Training runs & data artifacts
 # `runs/*` (not `runs/`) so the eval3-clean subdir can be re-included below;
 # other run dirs stay fully ignored exactly as before.
